@@ -1,4 +1,11 @@
 import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Button,
+} from 'react-native';
 
 export default function DashboardScreen() {
   return (
@@ -7,3 +14,11 @@ export default function DashboardScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
