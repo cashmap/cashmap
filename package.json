@@ -10,6 +10,8 @@
   "dependencies": {
     "expo": "^34.0.1",
     "expo-cli": "^3.0.9",
+    "expo-google-app-auth": "^6.0.0",
+    "expo-google-sign-in": "^6.0.0",
     "firebase": "^6.3.5",
     "react": "16.8.3",
     "react-dom": "^16.8.6",

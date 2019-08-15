@@ -1,26 +1,28 @@
-import React, { Component } from 'react';
-import Expo from 'expo';
+import React, { Component } from "react";
+import Expo from "expo";
+// import { Google } from "expo";
+import * as Google from "expo-google-app-auth";
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button,
-} from 'react-native';
+  Button
+} from "react-native";
 
 class LoginScreen extends Component {
   signInWithGoogleAsync = async () => {
     try {
-      console.log('davey wavey');
-      const result = await Expo.Google.logInAsync({
+      console.log("davey wavey");
+      const result = await Google.logInAsync({
         // androidClientId: YOUR_CLIENT_ID_HERE,
-        behavior: 'web',
+        behavior: "web",
         iosClientId:
-          '852373338559-hruf8q1h26u6s3lpmuhiu7ob30o1273n.apps.googleusercontent.com',
-        scopes: ['profile', 'email'],
+          "852373338559-hruf8q1h26u6s3lpmuhiu7ob30o1273n.apps.googleusercontent.com",
+        scopes: ["profile", "email"]
       });
-
-      if (result.type === 'success') {
+      console.log(result.user);
+      if (result.type === "success") {
         return result.accessToken;
       } else {
         return { cancelled: true };
@@ -47,7 +49,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
