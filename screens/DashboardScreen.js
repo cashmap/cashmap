@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 import {
   View,
   Text,
@@ -10,7 +11,7 @@ import {
 export default function DashboardScreen() {
   return (
     <View style={styles.container}>
-      <Text>Dashboard Screen</Text>
+      <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
     </View>
   );
 }

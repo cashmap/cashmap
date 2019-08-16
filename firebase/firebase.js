@@ -1,5 +1,5 @@
-import * as firebase from "firebase";
-import "firebase/firestore";
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 // WITH ALL COMPONENTS - ANYTHING I WANT TO DO PERTAINING TO FIREBASE, I CAN USE AN INSTANCE OF THIS
 export class FirebaseWrapper {
@@ -16,9 +16,9 @@ export class FirebaseWrapper {
       this._firebaseInstance = firebase.initializeApp(config);
       this._firestore = firebase.firestore();
       this.initialized = true;
-      console.log("CURRENTLY WORKING");
+      console.log('CURRENTLY WORKING');
     } else {
-      console.log("already initialized!");
+      console.log('already initialized!');
     }
   }
 
@@ -40,17 +40,17 @@ export class FirebaseWrapper {
       const timestamp = firebase.firestore.Timestamp.now().toDate();
       return await ref.set({ ...doc, createdAt: timestamp, id: ref.id });
     } catch (error) {
-      console.log("something went wrong", error);
+      console.log('something went wrong', error);
     }
   }
   //CREATE A LISTENER THAT FIREBASE CAN LISTEN ON DIFFERENT REFERENCES ON OUR DATABASE, ANYTHING THAT CHANGES ON OUR REFERENCE WE CAN DO A CALLBACK (STORE.SUBSCRIBE.. LETS SET OUR NEW STATE, SIMILAR TO FIREBASE)
 
   async SetupCollectionListener(collectionPath, callback) {
     try {
-      console.log("calling SetupCollectionListener");
+      console.log('calling SetupCollectionListener');
       await this._firestore
         .collection(collectionPath)
-        .orderBy("createdAt", "desc")
+        .orderBy('createdAt', 'desc')
         .onSnapshot(querySnapshot => {
           let container = [];
           querySnapshot.forEach(doc => {
@@ -59,7 +59,7 @@ export class FirebaseWrapper {
           return callback(container);
         });
     } catch (error) {
-      console.log("oh no! something went wrong!", error);
+      console.log('oh no! something went wrong!', error);
     }
   }
   //anytime we get data from db, it comes in form of snapshot
