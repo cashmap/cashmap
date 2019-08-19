@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import React, { Component } from "react";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 
-import firebase from 'firebase';
+import firebase from "firebase";
 
 export default class LoadingScreen extends Component {
   componentDidMount() {
@@ -12,9 +12,9 @@ export default class LoadingScreen extends Component {
     firebase.auth().onAuthStateChanged(
       function(user) {
         if (user) {
-          this.props.navigation.navigate('PlaidScreen');
+          this.props.navigation.navigate("PlaidScreen");
         } else {
-          this.props.navigation.navigate('LoginScreen');
+          this.props.navigation.navigate("LoginScreen");
         }
       }.bind(this)
     );
@@ -32,7 +32,7 @@ export default class LoadingScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
