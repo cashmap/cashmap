@@ -24,6 +24,11 @@ const AppSwitchNavigator = createSwitchNavigator({
 
 const AppNavigator = createAppContainer(AppSwitchNavigator);
 
+// const AppDrawerNavigator = createDrawerNavigator({
+//   PlaidScreen: PlaidScreen
+// });
+// const Apps = createAppContainer(AppDrawerNavigator);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
