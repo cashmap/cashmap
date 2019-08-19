@@ -17,8 +17,18 @@ class PlaidScreen extends Component {
       status: ""
     };
   }
-  onMessage = data => {
+  onMessage = async data => {
+    console.log("DATA:::::", data);
     this.setState({ data });
+    if (data.public_token) {
+      try {
+        await firebase.functions().httpsCallable("hello")({
+          public_token: data.public_token
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
   render() {
     return (
