@@ -1,15 +1,25 @@
-import React, { Component } from 'react';
-import PlaidAuthenticator from 'react-native-plaid-link';
-import firebase from 'firebase';
+import React, { Component } from "react";
+import PlaidAuthenticator from "react-native-plaid-link";
+import firebase from "firebase";
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button,
-} from 'react-native';
+  Button
+} from "react-native";
 
-class PlaidScreen extends Component() {
+class PlaidScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: "",
+      status: ""
+    };
+  }
+  onMessage = data => {
+    this.setState({ data });
+  };
   render() {
     return (
       <PlaidAuthenticator
@@ -24,16 +34,12 @@ class PlaidScreen extends Component() {
   }
 }
 
-onMessage = data => {
-  this.setState({ data });
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
 
 export default PlaidScreen;
