@@ -11,7 +11,7 @@ exports.exchange = functions.https.onRequest(async (request, response) => {
     console.log('public token: ', public_token);
     console.log('secret: ', functions.config().plaid.secret);
     console.log('client_id: ', functions.config().plaid.client_id);
-    const data = await axios.post(
+    const keys = await axios.post(
       `https://sandbox.plaid.com/item/public_token/exchange`,
       {
         client_id: functions.config().plaid.client_id,
@@ -19,7 +19,8 @@ exports.exchange = functions.https.onRequest(async (request, response) => {
         public_token: public_token,
       }
     );
-    console.log('data', data.data);
+    // console.log('data', data.data);
+    response.send({ data: keys.data });
     // console.log('response', response);
     // await firebase.functions().httpsCallable('getTrans')({
     //   public_token: data.metadata.public_token,
@@ -34,22 +35,17 @@ exports.getTrans = functions.https.onRequest(async (request, response) => {
   try {
     const { access_token } = request.body.data;
     console.log('getTrans was called!');
-    const result = await axios({
-      method: 'post',
-      url: 'https://sandbox.plaid.com/transactions/get',
-      data: {
+    const keys = await axios.post(
+      'https://sandbox.plaid.com/transactions/get',
+      {
         client_id: functions.config().plaid.client_id,
         secret: functions.config().plaid.secret,
         access_token: access_token,
         start_date: '2017-01-01',
         end_date: '2018-01-01',
-        options: {
-          count: 250,
-          offset: 100,
-        },
-      },
-    });
-    response.send(result);
+      }
+    );
+    response.send({ data: keys.data });
   } catch (error) {
     console.log('Get Trans Function Failure: ', error);
   }

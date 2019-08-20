@@ -29,13 +29,18 @@ class PlaidScreen extends Component {
         const result = await firebase.functions().httpsCallable("exchange")({
           public_token: data.metadata.public_token
         });
-        console.log("RESULT::::::", result);
+
+
+        console.log('RESULT::::::', result.data.access_token);
         //
-        await firebase.functions().httpsCallable("getTrans")({
-          public_token: data.metadata.public_token
+        const {
+          data: getTransResult,
+        } = await firebase.functions().httpsCallable('getTrans')({
+          access_token: result.data.access_token,
         });
 
-        console.log("RESULT::::::");
+        console.log('getTrans RESULT::::::', getTransResult);
+
       } catch (error) {
         console.log(error);
       }
