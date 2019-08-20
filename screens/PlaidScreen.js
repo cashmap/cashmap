@@ -1,30 +1,32 @@
-import React, { Component } from "react";
-import PlaidAuthenticator from "react-native-plaid-link";
-import firebase from "firebase";
+import React, { Component } from 'react';
+import PlaidAuthenticator from 'react-native-plaid-link';
+import firebase from 'firebase';
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button
-} from "react-native";
+  Button,
+} from 'react-native';
 
 class PlaidScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: "",
-      status: ""
+      data: '',
+      status: '',
     };
   }
   onMessage = async data => {
-    console.log("DATA:::::", data);
+    // console.log('DATA:::::', data.metadata.public_token);
     this.setState({ data });
-    if (data.public_token) {
+    if (data.metadata.public_token) {
       try {
-        await firebase.functions().httpsCallable("hello")({
-          public_token: data.public_token
+        await console.log('DATA:::::', data.metadata.public_token);
+        await firebase.functions().httpsCallable('hello')({
+          public_token: data.public_token,
         });
+        console.log('DATA:::::', data.metadata.public_token);
       } catch (error) {
         console.log(error);
       }
@@ -47,9 +49,9 @@ class PlaidScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default PlaidScreen;
