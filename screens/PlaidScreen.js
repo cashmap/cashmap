@@ -23,8 +23,8 @@ class PlaidScreen extends Component {
     if (data.metadata.public_token) {
       try {
         await console.log('DATA:::::', data.metadata.public_token);
-        await firebase.functions().httpsCallable('hello')({
-          public_token: data.public_token,
+        await firebase.functions().httpsCallable('exchange')({
+          public_token: data.metadata.public_token,
         });
         console.log('DATA:::::', data.metadata.public_token);
       } catch (error) {

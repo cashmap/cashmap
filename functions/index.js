@@ -6,13 +6,19 @@ const axios = require('axios');
 // Exchange Public Token
 exports.exchange = functions.https.onRequest(async (request, response) => {
   try {
-    const public_token = request.body.public_token;
+    const public_token = request.body;
+    console.log('server says: ', public_token);
     await axios({
       method: 'post',
-      url: `https://sandbox.plaid.com/item/${public_token}/exchange`,
+      url: `https://sandbox.plaid.com/item/public_token/exchange`,
+      data: {
+        client_id: functions.config().plaid.client_id,
+        secret: functions.config().plaid.secret,
+        public_token: public_token,
+      },
     });
   } catch (error) {
-    console.log('Fuck U', error);
+    console.log('Exchange Function Failure: ', error);
   }
 });
 
@@ -36,6 +42,6 @@ exports.getTrans = functions.https.onRequest(async (request, response) => {
     });
     response.send(result);
   } catch (error) {
-    console.log('Fuck u', error);
+    console.log('Get Trans Function Failure: ', error);
   }
 });

@@ -13,7 +13,7 @@
     "expo-cli": "^3.0.9",
     "expo-google-app-auth": "^6.0.0",
     "expo-google-sign-in": "^6.0.0",
-    "firebase": "^6.3.5",
+    "firebase": "^6.4.0",
     "firebase-tools": "^7.2.2",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
