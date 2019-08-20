@@ -17,6 +17,7 @@ class PlaidScreen extends Component {
       status: '',
     };
   }
+
   onMessage = async data => {
     // console.log('DATA:::::', data.metadata.public_token);
     this.setState({ data });
@@ -35,8 +36,10 @@ class PlaidScreen extends Component {
         } = await firebase.functions().httpsCallable('getTrans')({
           access_token: result.data.access_token,
         });
-
-        console.log('getTrans RESULT::::::', getTransResult);
+        if (getTransResult) {
+          this.props.navigation.navigate('DashboardScreen');
+          console.log('getTrans RESULT:::::', getTransResult);
+        }
       } catch (error) {
         console.log(error);
       }
