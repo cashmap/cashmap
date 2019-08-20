@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import Expo from "expo";
+import React, { Component } from 'react';
+import Expo from 'expo';
 // import { Google } from "expo";
-import * as Google from "expo-google-app-auth";
-import firebase from "firebase";
+import * as Google from 'expo-google-app-auth';
+import firebase from 'firebase';
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button
-} from "react-native";
+  Button,
+} from 'react-native';
 
 class LoginScreen extends Component {
   isUserEqual = (googleUser, firebaseUser) => {
-    console.log("isUserEqual Ran");
+    console.log('isUserEqual Ran');
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
       for (var i = 0; i < providerData.length; i++) {
@@ -30,8 +30,8 @@ class LoginScreen extends Component {
     return false;
   };
   onSignIn = googleUser => {
-    console.log("on sign in Ran");
-    console.log("Google Auth Response", googleUser);
+    console.log('on sign in Ran');
+    console.log('Google Auth Response', googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     var unsubscribe = firebase.auth().onAuthStateChanged(
       function(firebaseUser) {
@@ -48,11 +48,11 @@ class LoginScreen extends Component {
             .auth()
             .signInWithCredential(credential)
             .then(function(result) {
-              console.log("googleUser.user: ", googleUser.user);
+              console.log('googleUser.user: ', googleUser.user);
               if (result.additionalUserInfo.isNewUser) {
                 firebase
                   .firestore()
-                  .collection("users")
+                  .collection('users')
                   .doc(googleUser.user.id)
                   .set({
                     gmail: googleUser.user.email,
@@ -60,18 +60,18 @@ class LoginScreen extends Component {
                     first: googleUser.user.givenName,
                     last_name: googleUser.user.familyName,
                     created_at: Date.now(),
-                    id: result.user.uid
+                    id: result.user.uid,
                   })
                   .then(function(snapshot) {
-                    console.log("Snapshot", snapshot);
+                    console.log('Snapshot', snapshot);
                   });
               } else {
                 firebase
                   .firestore()
-                  .collection("users")
+                  .collection('users')
                   .doc(googleUser.user.id)
                   .update({
-                    last_logged_in: Date.now()
+                    last_logged_in: Date.now(),
                   });
               }
             })
@@ -87,7 +87,7 @@ class LoginScreen extends Component {
               console.log(error);
             });
         } else {
-          console.log("User already signed-in Firebase.");
+          console.log('User already signed-in Firebase.');
         }
       }.bind(this)
     );
@@ -95,18 +95,18 @@ class LoginScreen extends Component {
 
   signInWithGoogleAsync = async () => {
     try {
-      console.log("davey wavey");
+      console.log('davey wavey');
       const result = await Google.logInAsync({
         // androidClientId: YOUR_CLIENT_ID_HERE,
-        behavior: "web",
+        behavior: 'web',
         iosClientId:
-          "852373338559-hruf8q1h26u6s3lpmuhiu7ob30o1273n.apps.googleusercontent.com",
+          '852373338559-hruf8q1h26u6s3lpmuhiu7ob30o1273n.apps.googleusercontent.com',
         androidClientId:
-          "852373338559-lufn0g0ebig1b0mqk29e6e9l6bimccqo.apps.googleusercontent.com",
-        scopes: ["profile", "email"]
+          '852373338559-lufn0g0ebig1b0mqk29e6e9l6bimccqo.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
       });
       console.log(result);
-      if (result.type === "success") {
+      if (result.type === 'success') {
         this.onSignIn(result);
         return result.accessToken;
       } else {
@@ -134,7 +134,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
