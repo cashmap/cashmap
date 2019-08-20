@@ -20,13 +20,20 @@ class PlaidScreen extends Component {
   onMessage = async data => {
     // console.log('DATA:::::', data.metadata.public_token);
     this.setState({ data });
-    if (data.metadata.public_token) {
+
+    if (data && data.metadata && data.metadata.public_token) {
       try {
-        await console.log('DATA:::::', data.metadata.public_token);
-        await firebase.functions().httpsCallable('exchange')({
+        console.log('DATA:::::', data.metadata.public_token);
+        const result = await firebase.functions().httpsCallable('exchange')({
           public_token: data.metadata.public_token,
         });
-        console.log('DATA:::::', data.metadata.public_token);
+        console.log('RESULT::::::', result);
+        //
+        await firebase.functions().httpsCallable('getTrans')({
+          public_token: data.metadata.public_token,
+        });
+
+        console.log('RESULT::::::');
       } catch (error) {
         console.log(error);
       }
