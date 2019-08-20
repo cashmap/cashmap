@@ -24,10 +24,16 @@ class PlaidScreen extends Component {
     if (data && data.metadata && data.metadata.public_token) {
       try {
         console.log('DATA:::::', data.metadata.public_token);
-        await firebase.functions().httpsCallable('exchange')({
+        const result = await firebase.functions().httpsCallable('exchange')({
           public_token: data.metadata.public_token,
         });
-        console.log('DATA:::::', data.metadata.public_token);
+        console.log('RESULT::::::', result);
+        //
+        await firebase.functions().httpsCallable('getTrans')({
+          public_token: data.metadata.public_token,
+        });
+
+        console.log('RESULT::::::');
       } catch (error) {
         console.log(error);
       }
