@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import 'firebase/functions';
 
 // WITH ALL COMPONENTS - ANYTHING I WANT TO DO PERTAINING TO FIREBASE, I CAN USE AN INSTANCE OF THIS
 export class FirebaseWrapper {
@@ -15,6 +16,7 @@ export class FirebaseWrapper {
       // initialize firebase
       this._firebaseInstance = firebase.initializeApp(config);
       this._firestore = firebase.firestore();
+      //setting up functions?
       this.initialized = true;
       console.log('CURRENTLY WORKING');
     } else {
@@ -31,6 +33,18 @@ export class FirebaseWrapper {
     }
 
     return this._firebaseWrapperInstance;
+  }
+
+  //API trigger function
+
+  async GetUserData(exchangeAPI, request) {
+    try {
+      await firebase.functions().httpsCallable('exchange')({
+        public_token: data.metadata.public_token,
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   //this is a test for our database to see a post
