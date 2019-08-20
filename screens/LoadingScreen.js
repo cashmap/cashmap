@@ -12,8 +12,7 @@ export default class LoadingScreen extends Component {
     firebase.auth().onAuthStateChanged(
       function(user) {
         if (user) {
-          //this will need to redirect to PlaidScreen first, and then redirect to DashboardScreen
-          this.props.navigation.navigate("DashboardScreen");
+          this.props.navigation.navigate("PlaidScreen");
         } else {
           this.props.navigation.navigate("LoginScreen");
         }
