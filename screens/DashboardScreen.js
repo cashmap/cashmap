@@ -1,56 +1,59 @@
-import React, { Component } from 'react';
-import firebase from 'firebase';
-import MapView from 'react-native-maps';
-import PlaidAuthenticator from 'react-native-plaid-link';
-import PlaidScreen from './PlaidScreen';
+import React, { Component } from "react";
+import firebase from "firebase";
+import MapView from "react-native-maps";
+import { connect } from "react-redux";
+import PlaidAuthenticator from "react-native-plaid-link";
+import PlaidScreen from "./PlaidScreen";
+import { getTransactions, setAccessTokens } from "../redux/reducers/index";
 import {
   createAppContainer,
   createSwitchNavigator,
   createDrawerNavigator,
-  NavigationEvents,
-} from 'react-navigation';
+  NavigationEvents
+} from "react-navigation";
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button,
-} from 'react-native';
-export default class DashboardScreen extends Component {
+  Button
+} from "react-native";
+
+class DashboardScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: '',
-      status: '',
+      data: "",
+      status: ""
     };
   }
   onMessage = data => {
     this.setState({ data });
   };
+
+  componentDidMount() {
+    this.props.getTransactions();
+    this.props.setAccessTokens(token);
+    console.log(getState());
+  }
+
   render() {
+    console.log(this.props.transactions);
     return (
       <View style={styles.container}>
-        <PlaidAuthenticator
-          onMessage={this.onMessage}
-          publicKey="24f3ac429bf9317300cffa9d81e452"
-          env="sandbox"
-          product="auth,transactions"
-          clientName="CashMap"
-          selectAccount={false}
-        />
         <MapView
           style={styles.map}
           region={{
             latitude: 40.705307,
             longitude: -74.009088,
             latitudeDelta: 0.1,
-            longitudeDelta: 0.1,
+            longitudeDelta: 0.1
           }}
         >
           <MapView.Marker
             coordinate={{ latitude: 40.705307, longitude: -74.009088 }}
-            title={'Fullstack'}
-            description={'Academy of Code'}
+            title={"Fullstack"}
+            description={"Academy of Code"}
           />
         </MapView>
         <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
@@ -61,19 +64,41 @@ export default class DashboardScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end', //center
-    position: 'absolute',
+    alignItems: "center",
+    justifyContent: "flex-end", //center
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0,
+    right: 0
   },
   map: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0,
-  },
+    right: 0
+  }
 });
+
+const mapStateToProps = state => {
+  return {
+    transactions: state.transactions,
+    accessToken: state.accessToken
+  };
+};
+const mapStateToDispatch = dispatch => {
+  return {
+    getTransactions: () => {
+      dispatch(getTransactions());
+    },
+    setAccessTokens: token => {
+      dispatch(setAccessTokens(token));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapStateToDispatch
+)(DashboardScreen);

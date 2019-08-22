@@ -7,11 +7,17 @@ import LoginScreen from "./screens/LoginScreen";
 import LoadingScreen from "./screens/LoadingScreen";
 import DashboardScreen from "./screens/DashboardScreen";
 import PlaidScreen from "./screens/PlaidScreen";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 export default class App extends Component {
   render() {
     FirebaseWrapper.GetInstance().Initialize(firebaseConfig);
-    return <AppNavigator />;
+    return (
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+    );
   }
 }
 
