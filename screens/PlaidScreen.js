@@ -15,6 +15,7 @@ class PlaidScreen extends Component {
     this.state = {
       data: '',
       status: '',
+      transactions: {},
     };
   }
 
@@ -30,15 +31,17 @@ class PlaidScreen extends Component {
         });
 
         console.log('RESULT::::::', result.data.access_token);
-        //
-        const {
-          data: getTransResult,
-        } = await firebase.functions().httpsCallable('getTrans')({
-          access_token: result.data.access_token,
-        });
-        if (getTransResult) {
+        let currentUser = firebase.auth().currentUser;
+
+        if (result.data.access_token) {
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(currentUser.providerData[0].uid)
+            .update({
+              accesstoken: result.data.access_token,
+            });
           this.props.navigation.navigate('DashboardScreen');
-          console.log('getTrans RESULT:::::', getTransResult);
         }
       } catch (error) {
         console.log(error);

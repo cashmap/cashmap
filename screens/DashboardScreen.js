@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import MapView from 'react-native-maps';
 import PlaidAuthenticator from 'react-native-plaid-link';
-import PlaidScreen from './PlaidScreen';
+import getTransResult from './PlaidScreen';
+import Map from './Map';
+
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -16,46 +18,68 @@ import {
   ActivityIndicator,
   Button,
 } from 'react-native';
+
 export default class DashboardScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: '',
       status: '',
+      accesstoken: '',
+      transactions: {},
     };
   }
-  onMessage = data => {
-    this.setState({ data });
-  };
+
+  async componentDidMount() {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.providerData[0].uid)
+      .get()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log('No such document!');
+        } else {
+          let userAccessToken = doc.data().accesstoken;
+          this.setState({
+            accesstoken: userAccessToken,
+          });
+          console.log(this.state.accesstoken);
+          this.transGetter();
+        }
+      })
+      .catch(err => {
+        console.log('Error getting document', err);
+      });
+  }
+
+  async transGetter() {
+    const { data: getTransResult } = await firebase
+      .functions()
+      .httpsCallable('getTrans')({
+      access_token: this.state.accesstoken,
+    });
+    console.log('getTrans is Running!');
+    if (getTransResult) {
+      this.setState({ transactions: getTransResult });
+
+      console.log(
+        'Dashboard Screen Transactions',
+        this.state.transactions.transactions[0].name
+      );
+    }
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <PlaidAuthenticator
-          onMessage={this.onMessage}
-          publicKey="24f3ac429bf9317300cffa9d81e452"
-          env="sandbox"
-          product="auth,transactions"
-          clientName="CashMap"
-          selectAccount={false}
-        />
-        <MapView
-          style={styles.map}
-          region={{
-            latitude: 40.705307,
-            longitude: -74.009088,
-            latitudeDelta: 0.1,
-            longitudeDelta: 0.1,
-          }}
-        >
-          <MapView.Marker
-            coordinate={{ latitude: 40.705307, longitude: -74.009088 }}
-            title={'Fullstack'}
-            description={'Academy of Code'}
-          />
-        </MapView>
-        <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
-      </View>
-    );
+    if (this.state.transactions.transactions) {
+      return (
+        <View style={styles.container}>
+          <Map transactions={this.state.transactions.transactions} />
+        </View>
+      );
+    } else {
+      return <View />;
+    }
   }
 }
 const styles = StyleSheet.create({
