@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { FirebaseWrapper } from "./firebase/firebase";
-import { firebaseConfig } from "./firebase/config";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import LoginScreen from "./screens/LoginScreen";
-import LoadingScreen from "./screens/LoadingScreen";
-import DashboardScreen from "./screens/DashboardScreen";
-import PlaidScreen from "./screens/PlaidScreen";
-import Map from "./screens/Map";
-import FusionPie from "./screens/FusionPie";
-
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { FirebaseWrapper } from './firebase/firebase';
+import { firebaseConfig } from './firebase/config';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import LoginScreen from './screens/LoginScreen';
+import LoadingScreen from './screens/LoadingScreen';
+import DashboardScreen from './screens/DashboardScreen';
+import PlaidScreen from './screens/PlaidScreen';
+import Map from './screens/Map';
+import FusionBar from './screens/FusionBar';
+import PieChart from './screens/PieChart';
 export default class App extends Component {
   render() {
     FirebaseWrapper.GetInstance().Initialize(firebaseConfig);
@@ -23,7 +23,8 @@ const AppSwitchNavigator = createSwitchNavigator({
   DashboardScreen: DashboardScreen,
   PlaidScreen: PlaidScreen,
   MapScreen: Map,
-  FusionPie: FusionPie
+  FusionBar: FusionBar,
+  PieChart: PieChart,
 });
 
 const AppNavigator = createAppContainer(AppSwitchNavigator);
@@ -36,8 +37,8 @@ const AppNavigator = createAppContainer(AppSwitchNavigator);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
