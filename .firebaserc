@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "cash-map"
+    "default": "cash-map",
+    "cashmap": "cash-map"
   }
 }
