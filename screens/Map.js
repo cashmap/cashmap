@@ -1,23 +1,26 @@
+
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import MapView from 'react-native-maps';
 import PlaidAuthenticator from 'react-native-plaid-link';
 import PlaidScreen from './PlaidScreen';
 const education = require('../assets/education.png');
+
 import {
   createAppContainer,
   createSwitchNavigator,
   createDrawerNavigator,
-  NavigationEvents,
-} from 'react-navigation';
+  NavigationEvents
+} from "react-navigation";
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button,
-} from 'react-native';
+  Button
+} from "react-native";
 export default class Map extends Component {
+
   // constructor(props) {
   //   super(props);
   //   this.state = {
@@ -34,6 +37,7 @@ export default class Map extends Component {
         );
         // console.log('transaction amount: ', this.props.transactions[i].amount);
       }
+
     }
   }
   onNavigate = () => {
@@ -41,6 +45,7 @@ export default class Map extends Component {
   };
 
   render() {
+
     // if (this.props.transactions) {
 
     return (
@@ -73,28 +78,31 @@ export default class Map extends Component {
     // } else {
     //   return <View />;
     // }
+
   }
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end', //center
-    position: 'absolute',
+    alignItems: "center",
+    justifyContent: "flex-end", //center
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0,
+    right: 0
   },
   map: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
+
     right: 0,
   },
   marker: {
     width: 40,
     height: 40,
   },
+
 });
