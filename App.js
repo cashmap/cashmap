@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FirebaseWrapper } from "./firebase/firebase";
@@ -14,12 +15,14 @@ import PlaidScreen from "./screens/PlaidScreen";
 import MapScreen from "./screens/Map";
 import { AppRegistry, Dimensions } from "react-native";
 
+
 export default class App extends Component {
   render() {
     FirebaseWrapper.GetInstance().Initialize(firebaseConfig);
     return <AppDrawerNav />;
   }
 }
+
 const AppDrawerNavigator = createDrawerNavigator({
   Loading: {
     screen: LoadingScreen
@@ -35,7 +38,14 @@ const AppDrawerNavigator = createDrawerNavigator({
   },
   MapScreen: {
     screen: MapScreen
+  },
+  FusionBar: {
+    screen: FusionBar
+  },
+  PieChart: {
+    screen: PieChart
   }
+
 });
 
 const AppDrawerNav = createAppContainer(AppDrawerNavigator);

@@ -65,10 +65,12 @@ export default class DashboardScreen extends Component {
     if (getTransResult) {
       this.setState({ transactions: getTransResult });
 
+
       console.log(
         "Dashboard Screen Transactions",
         this.state.transactions.transactions[0].name
       );
+
     }
   }
 
@@ -76,8 +78,14 @@ export default class DashboardScreen extends Component {
     if (this.state.transactions.transactions) {
       return (
         <View style={styles.container}>
+
           <MenuButton navigation={this.props.navigation} />
-          <Map transactions={this.state.transactions.transactions} />
+         
+          <Map
+            transactions={this.state.transactions.transactions}
+            navigation={this.props.navigation}
+          />
+
         </View>
       );
     } else {
