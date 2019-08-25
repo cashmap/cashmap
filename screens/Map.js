@@ -27,7 +27,13 @@ export default class Map extends Component {
   // }
   componentDidMount() {
     if (this.props.transactions) {
-      console.log('Map.js Props', this.props.transactions[0].name);
+      for (let i = 0; i < this.props.transactions.length; i++) {
+        console.log(
+          'transaction category: ',
+          this.props.transactions[i].category
+        );
+        // console.log('transaction amount: ', this.props.transactions[i].amount);
+      }
     }
   }
   onNavigate = () => {
@@ -36,7 +42,7 @@ export default class Map extends Component {
 
   render() {
     // if (this.props.transactions) {
-    console.log('rendering props: ', this.props);
+
     return (
       <View style={styles.container}>
         <MapView
