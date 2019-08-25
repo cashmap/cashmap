@@ -63,7 +63,7 @@ export default class Map extends Component {
           />
         </MapView>
         <Button
-          title="Pie Chart"
+          title="Pie"
           onPress={() => this.props.navigation.navigate('PieChart')}
         />
         <Button title="Bar Chart" onPress={() => this.onNavigate()} />
