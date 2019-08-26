@@ -59,24 +59,37 @@ export default class DashboardScreen extends Component {
   async transGetter() {
     const { data: getTransResult } = await firebase
       .functions()
+
       .httpsCallable('getTrans')({
       access_token: this.state.accesstoken,
       start_date: '2017-01-01',
       end_date: '2019-01-01',
+
     });
     console.log('getTrans is Running!');
     if (getTransResult) {
       this.setState({ transactions: getTransResult });
+
       for (let i = 0; i < getTransResult.transactions.length; i++) {
         console.log('map trans dates: ', getTransResult.transactions[i].date);
       }
+
     }
   }
 
   render() {
+    console.log(
+      "this.state.transactions.transactions",
+      this.state.transactions
+    );
     if (this.state.transactions.transactions) {
+      console.log("if");
+
       return (
         <View style={styles.container}>
+
+          <Text>Josh</Text>
+
           <MenuButton navigation={this.props.navigation} />
 
           <Map
@@ -88,7 +101,8 @@ export default class DashboardScreen extends Component {
         </View>
       );
     } else {
-      return <View />;
+      console.log("else");
+      return <View style={{ backgroundColor: "red" }}></View>;
     }
   }
 }

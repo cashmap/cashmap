@@ -1,32 +1,41 @@
 import React, { Component } from "react";
 import FusionCharts from "react-native-fusioncharts";
 import { View, Text, StyleSheet, Platform } from "react-native";
+
+import MenuButton from "../components/MenuButton";
+
 import firebase from "firebase";
 import DatePicker from "react-native-datepicker";
 import { Button } from "react-native-elements";
+
 
 export default class PieChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
+
       transactions: {},
       access_token: "",
       startDate: "2017-01-01",
       endDate: "2019-01-01",
+
       type: "pie3d",
       width: "100%",
       height: "100%",
       dataFormat: "json",
       dataSource: {
         chart: {
+
           caption: "Spending by Category",
 
           numberSuffix: "",
           numberPrefix: "$",
+
           theme: "fusion"
         },
         data: [
           {
+
             label: "",
 
             value: "0"
@@ -50,6 +59,7 @@ export default class PieChart extends Component {
           {
             label: "",
             value: "0"
+
           }
         ]
       }
@@ -57,6 +67,7 @@ export default class PieChart extends Component {
     this.libraryPath = Platform.select({
       android: { uri: "file:///android_asset/fusioncharts.html" },
       ios: require("../assets/fusioncharts.html")
+
     });
   }
 
@@ -229,12 +240,14 @@ export default class PieChart extends Component {
           }
         ]
       }
+
     });
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <MenuButton navigation={this.props.navigation} />
         <Text style={styles.header}>A 3D Pie Chart</Text>
         <View style={styles.chartContainer}>
           <FusionCharts
@@ -320,6 +333,8 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     height: 400,
+
     fontSize: 4
+
   }
 });
