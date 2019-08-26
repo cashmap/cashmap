@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import firebase from "firebase";
 import { Icon } from "react-native";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import PlaidAuthenticator from "react-native-plaid-link";
 import getTransResult from "./PlaidScreen";
 import Map from "./Map";
 import MenuButton from "../components/MenuButton";
+const mapStyle = require("./jsons/darkmap");
 
 import {
   createAppContainer,
@@ -65,12 +66,10 @@ export default class DashboardScreen extends Component {
     if (getTransResult) {
       this.setState({ transactions: getTransResult });
 
-
       console.log(
         "Dashboard Screen Transactions",
         this.state.transactions.transactions[0].name
       );
-
     }
   }
 
@@ -78,14 +77,14 @@ export default class DashboardScreen extends Component {
     if (this.state.transactions.transactions) {
       return (
         <View style={styles.container}>
-
           <MenuButton navigation={this.props.navigation} />
-         
+
           <Map
+            provider={PROVIDER_GOOGLE}
+            customMapStyle={mapStyle}
             transactions={this.state.transactions.transactions}
             navigation={this.props.navigation}
           />
-
         </View>
       );
     } else {
