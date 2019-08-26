@@ -59,37 +59,43 @@ export default class DashboardScreen extends Component {
     const { data: getTransResult } = await firebase
       .functions()
       .httpsCallable("getTrans")({
-      access_token: this.state.accesstoken
+      access_token: this.state.accesstoken,
+      start_date: "2017-01-01",
+      end_date: "2019-01-01"
     });
     console.log("getTrans is Running!");
     if (getTransResult) {
       this.setState({ transactions: getTransResult });
 
-
       console.log(
         "Dashboard Screen Transactions",
         this.state.transactions.transactions[0].name
       );
-
     }
   }
 
   render() {
+    console.log(
+      "this.state.transactions.transactions",
+      this.state.transactions
+    );
     if (this.state.transactions.transactions) {
+      console.log("if");
+
       return (
         <View style={styles.container}>
-
+          <Text>Josh</Text>
           <MenuButton navigation={this.props.navigation} />
-         
+
           <Map
             transactions={this.state.transactions.transactions}
             navigation={this.props.navigation}
           />
-
         </View>
       );
     } else {
-      return <View />;
+      console.log("else");
+      return <View style={{ backgroundColor: "red" }}></View>;
     }
   }
 }
