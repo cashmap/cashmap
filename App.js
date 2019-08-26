@@ -55,6 +55,7 @@ export default class App extends Component {
     return <AppDrawerNav />;
   }
 }
+
 // const AppSwitchNavigator = createSwitchNavigator({
 //   LoadingScreen: LoadingScreen,
 //   LoginScreen: LoginScreen,

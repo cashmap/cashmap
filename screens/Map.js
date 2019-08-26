@@ -1,11 +1,10 @@
-
-import React, { Component } from 'react';
-import firebase from 'firebase';
-import MapView from 'react-native-maps';
-import PlaidAuthenticator from 'react-native-plaid-link';
-import PlaidScreen from './PlaidScreen';
-const education = require('../assets/education.png');
-
+import React, { Component } from "react";
+import firebase from "firebase";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import PlaidAuthenticator from "react-native-plaid-link";
+import PlaidScreen from "./PlaidScreen";
+const education = require("../assets/education.png");
+const mapStyle = require("./jsons/darkmap");
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -20,7 +19,6 @@ import {
   Button
 } from "react-native";
 export default class Map extends Component {
-
   // constructor(props) {
   //   super(props);
   //   this.state = {
@@ -32,36 +30,36 @@ export default class Map extends Component {
     if (this.props.transactions) {
       for (let i = 0; i < this.props.transactions.length; i++) {
         console.log(
-          'transaction category: ',
+          "transaction category: ",
           this.props.transactions[i].category
         );
         // console.log('transaction amount: ', this.props.transactions[i].amount);
       }
-
     }
   }
   onNavigate = () => {
-    this.props.navigation.navigate('FusionBar');
+    this.props.navigation.navigate("FusionBar");
   };
 
   render() {
-
     // if (this.props.transactions) {
 
     return (
       <View style={styles.container}>
         <MapView
+          provider={PROVIDER_GOOGLE}
           style={styles.map}
+          customMapStyle={mapStyle}
           region={{
             latitude: 40.705307,
             longitude: -74.009088,
             latitudeDelta: 0.1,
-            longitudeDelta: 0.1,
+            longitudeDelta: 0.1
           }}
         >
           <MapView.Marker
             coordinate={{ latitude: 40.705307, longitude: -74.009088 }}
-            title={'Fullstack'}
+            title={"Fullstack"}
             image={education}
             style={styles.marker}
             description={this.props.transactions[0].name}
@@ -69,7 +67,7 @@ export default class Map extends Component {
         </MapView>
         <Button
           title="Pie"
-          onPress={() => this.props.navigation.navigate('PieChart')}
+          onPress={() => this.props.navigation.navigate("PieChart")}
         />
         <Button title="Bar Chart" onPress={() => this.onNavigate()} />
         <Button title="Sign Out" onPress={() => firebase.auth().signOut()} />
@@ -78,7 +76,6 @@ export default class Map extends Component {
     // } else {
     //   return <View />;
     // }
-
   }
 }
 const styles = StyleSheet.create({
@@ -98,11 +95,10 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
 
-    right: 0,
+    right: 0
   },
   marker: {
     width: 40,
-    height: 40,
-  },
-
+    height: 40
+  }
 });
