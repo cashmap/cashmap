@@ -24,13 +24,18 @@ export default class App extends Component {
 }
 
 const AppDrawerNavigator = createDrawerNavigator({
+  LoadingScreen: {
+    screen: LoadingScreen,
+  },
   LoginScreen: {
     screen: LoginScreen,
   },
-  DashboardScreen: {
+  PlaidScreen: {
+    screen: PlaidScreen,
+  },
+  Map: {
     screen: DashboardScreen,
   },
-
   FusionBar: {
     screen: FusionBar,
   },
