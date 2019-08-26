@@ -34,15 +34,22 @@ exports.exchange = functions.https.onRequest(async (request, response) => {
 exports.getTrans = functions.https.onRequest(async (request, response) => {
   try {
     const { access_token } = request.body.data;
+    const { start_date } = request.body.data;
+    const { end_date } = request.body.data;
+
     console.log('getTrans was called!');
+    console.log('request: ', request.body.data);
+
     const keys = await axios.post(
       'https://sandbox.plaid.com/transactions/get',
       {
         client_id: functions.config().plaid.client_id,
         secret: functions.config().plaid.secret,
         access_token: access_token,
-        start_date: '2017-01-01',
-        end_date: '2019-01-01',
+        // start_date: '2017-01-01',
+        // end_date: '2019-01-01',
+        start_date: start_date,
+        end_date: end_date,
       }
     );
     response.send({ data: keys.data });
