@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import firebase from "firebase";
+import React, { Component } from 'react';
+import firebase from 'firebase';
 import {
   StyleSheet,
   Image,
@@ -7,9 +7,9 @@ import {
   View,
   TouchableHighlight,
   TouchableOpacity,
-  ScrollView
-} from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+  ScrollView,
+} from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default class contentComponent extends Component {
   constructor(props) {
@@ -35,10 +35,9 @@ export default class contentComponent extends Component {
         >
           <ScrollView>
             <View style={styles.header}>
-
               {firebase.auth().currentUser ? (
                 <React.Fragment>
-                  <Text style={[styles.text, { color: 'white' }]}>
+                  <Text style={[styles.userText, { color: 'white' }]}>
                     {firebase.auth().currentUser.displayName}
                   </Text>
 
@@ -50,11 +49,10 @@ export default class contentComponent extends Component {
               ) : (
                 <Text></Text>
               )}
-
             </View>
 
             <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("DashboardScreen")}
+              onPress={() => this.props.navigation.navigate('DashboardScreen')}
             >
               <View style={styles.row}>
                 <Text style={styles.text}>Map</Text>
@@ -62,7 +60,7 @@ export default class contentComponent extends Component {
             </TouchableHighlight>
 
             <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("FusionBar")}
+              onPress={() => this.props.navigation.navigate('FusionBar')}
             >
               <View style={styles.row}>
                 <Text style={styles.text}>Bar</Text>
@@ -70,7 +68,7 @@ export default class contentComponent extends Component {
             </TouchableHighlight>
 
             <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("PieChart")}
+              onPress={() => this.props.navigation.navigate('PieChart')}
             >
               <View style={styles.row}>
                 <Text style={styles.text}>Pie</Text>
@@ -82,7 +80,7 @@ export default class contentComponent extends Component {
               onPress={() => firebase.auth().signOut()}
             >
               <View style={styles.row}>
-                <FontAwesome size={28} name={"sign-out"} />
+                <FontAwesome size={28} name={'sign-out'} />
                 <Text style={styles.text}>Log Out</Text>
               </View>
             </TouchableHighlight>
@@ -95,48 +93,55 @@ export default class contentComponent extends Component {
 
 const styles = StyleSheet.create({
   LogOut: {
-    backgroundColor: "lightgrey",
-    color: "#111",
+    backgroundColor: 'lightgrey',
+    color: '#111',
     fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 200
+    fontWeight: 'bold',
+    marginTop: 200,
   },
   text: {
-    color: "#111",
+    color: '#111',
     fontSize: 20,
-    fontWeight: "bold",
-    marginLeft: 15
+    fontWeight: 'bold',
+    marginLeft: 15,
+  },
+  userText: {
+    color: '#111',
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignContent: 'center',
   },
   drawer: {
     flex: 1,
-    backgroundColor: "white",
-    width: 200
+    backgroundColor: 'white',
+    width: 200,
   },
   drawerTransparent: {
     flex: 1,
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent',
   },
   header: {
-    width: "100%",
+    width: '100%',
     height: 200,
-    backgroundColor: "#217393",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#217393',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   row: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 15,
-    paddingLeft: 10
+    paddingLeft: 10,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 65,
+    height: 65,
+    marginTop: 20,
   },
   menu: {
     width: 10,
     height: 10,
-    backgroundColor: "red",
+    backgroundColor: 'red',
     borderRadius: 50,
-    alignSelf: "center"
-  }
+    alignSelf: 'center',
+  },
 });
