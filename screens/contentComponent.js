@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import firebase from "firebase";
 import {
   StyleSheet,
+  Image,
   Text,
   View,
   TouchableHighlight,
@@ -11,7 +12,16 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 
 export default class contentComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+    };
+  }
+
   render() {
+    console.log('contentComponent says: ', firebase.auth().currentUser);
+
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -25,7 +35,22 @@ export default class contentComponent extends Component {
         >
           <ScrollView>
             <View style={styles.header}>
-              <Text style={[styles.text, { color: "white" }]}>User Name</Text>
+
+              {firebase.auth().currentUser ? (
+                <React.Fragment>
+                  <Text style={[styles.text, { color: 'white' }]}>
+                    {firebase.auth().currentUser.displayName}
+                  </Text>
+
+                  <Image
+                    style={styles.image}
+                    source={{ uri: firebase.auth().currentUser.photoURL }}
+                  />
+                </React.Fragment>
+              ) : (
+                <Text></Text>
+              )}
+
             </View>
 
             <TouchableHighlight
@@ -102,6 +127,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingVertical: 15,
     paddingLeft: 10
+  },
+  image: {
+    width: 50,
+    height: 50,
   },
   menu: {
     width: 10,

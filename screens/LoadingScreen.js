@@ -12,7 +12,7 @@ export default class LoadingScreen extends Component {
     firebase.auth().onAuthStateChanged(
       function(user) {
         if (user) {
-          this.props.navigation.navigate('PlaidScreen');
+          this.props.navigation.navigate('PlaidScreen'); // change this back to loadingScreen
         } else {
           this.props.navigation.navigate('LoginScreen');
         }

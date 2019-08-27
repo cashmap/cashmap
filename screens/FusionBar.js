@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import FusionCharts from "react-native-fusioncharts";
@@ -5,6 +6,7 @@ import firebase from "firebase";
 import MenuHeader from "./MenuHeader";
 import DatePicker from "react-native-datepicker";
 import { Button } from "react-native-elements";
+
 
 export default class PlainColumn2D extends Component {
   constructor(props) {
@@ -22,11 +24,11 @@ export default class PlainColumn2D extends Component {
       dataFormat: "json",
       dataSource: {
         chart: {
-          caption: "Spending by Category",
 
-          numberSuffix: "",
-          numberPrefix: "$",
-          theme: "fusion"
+          numberSuffix: '',
+          numberPrefix: '$',
+          theme: 'fusion',
+
         },
         data: [
           {
@@ -186,12 +188,11 @@ export default class PlainColumn2D extends Component {
       transactions: transactions,
       dataSource: {
         chart: {
-          caption: "Spending by Category",
-          subCaption: `${this.state.startDate} - ${this.state.endDate}`,
 
-          numberPrefix: "$",
-          numberSuffix: "",
-          theme: "fusion"
+          numberPrefix: '$',
+          numberSuffix: '',
+          theme: 'fusion',
+
         },
         data: [
           {
@@ -227,8 +228,16 @@ export default class PlainColumn2D extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <MenuHeader />
-        <Text style={styles.header} />
+
+        <Text style={styles.header}></Text>
+        <Text style={styles.header}></Text>
+        <Text h2 style={styles.header}>
+          Spending by Category:
+        </Text>
+        <Text h4 style={styles.subHeader}>
+          {this.state.startDate} - {this.state.endDate}
+        </Text>
+
         <View style={styles.chartContainer}>
           <FusionCharts
             type={this.state.type}
@@ -238,8 +247,18 @@ export default class PlainColumn2D extends Component {
             dataSource={this.state.dataSource}
             libraryPath={this.libraryPath} // set the libraryPath property
           />
+        </View>
+        <Text>Update Date Range: </Text>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
           <DatePicker
-            style={{ width: 200 }}
+            style={{ width: 150 }}
             date={this.state.startDate} //initial date from state
             mode="date" //The enum of date, datetime and time
             placeholder="select start date"
@@ -248,23 +267,15 @@ export default class PlainColumn2D extends Component {
             maxDate="2019-01-01"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: "absolute",
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}
+
+            showIcon={false}
+
             onDateChange={date => {
               this.setState({ startDate: date });
             }}
           />
           <DatePicker
-            style={{ width: 200 }}
+            style={{ width: 150 }}
             date={this.state.endDate} //initial date from state
             mode="date" //The enum of date, datetime and time
             placeholder="select end date"
@@ -273,28 +284,21 @@ export default class PlainColumn2D extends Component {
             maxDate="2019-01-01"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: "absolute",
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}
+
+            showIcon={false}
+
             onDateChange={date => {
               this.setState({ endDate: date });
             }}
           />
-          <Button
-            title="Refresh Chart"
-            onPress={() =>
-              this.transUpdater(this.state.startDate, this.state.endDate)
-            }
-          />
         </View>
+
+        <Button
+          title="Refresh Chart"
+          onPress={() =>
+            this.transUpdater(this.state.startDate, this.state.endDate)
+          }
+        />
       </View>
     );
   }
@@ -303,7 +307,10 @@ export default class PlainColumn2D extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+
+    padding: 10,
+    justifyContent: 'flex-start',
+
   },
   header: {
     fontWeight: "bold",
@@ -311,9 +318,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingBottom: 10
   },
+  subHeader: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    textAlign: 'center',
+    paddingBottom: 10,
+  },
   chartContainer: {
     height: 400,
 
-    fontSize: 4
-  }
+    flex: 1,
+    justifyContent: 'flex-start',
+    fontSize: 4,
+  },
+
 });

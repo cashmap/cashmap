@@ -19,27 +19,79 @@ import {
   Button,
 } from 'react-native';
 export default class Map extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     data: "",
-  //     status: ""
-  //   };
-  // }
-  componentDidMount() {
-    if (this.props.transactions) {
-      for (let i = 0; i < this.props.transactions.length; i++) {
-        console.log(
-          'transaction category: ',
-          this.props.transactions[i].category
-        );
-        // console.log('transaction amount: ', this.props.transactions[i].amount);
-      }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      locations: [],
+      allLocations: [],
+    };
   }
+
+  async componentDidMount() {
+    let filteredLocations = this.generateLocations();
+    console.log('filteredLocations: ', filteredLocations);
+    await this.setState({
+      locations: filteredLocations,
+      allLocations: filteredLocations,
+    });
+
+    console.log('locations state: ', this.state.locations);
+  }
+
   onNavigate = () => {
     this.props.navigation.navigate('FusionBar');
   };
+
+  getRandomInRange(from, to, fixed) {
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+  }
+
+  generateLocations() {
+    return this.props.transactions
+      .filter(
+        el =>
+          el.category[0] === 'Food and Drink' ||
+          el.category[0] === 'Shops' ||
+          el.category[0] === 'Recreation'
+      )
+      .map(el => (
+        <MapView.Marker
+          coordinate={{
+            latitude: this.getRandomInRange(40.605, 40.805, 3),
+            longitude: this.getRandomInRange(-73.909, -74.109, 3),
+          }}
+          title={el.name}
+          style={styles.marker}
+          description={`$${el.amount}`}
+          category={el.category[0]}
+        />
+      ));
+  }
+
+  shopFilter() {
+    let shops = this.state.allLocations.filter(
+      el => el.props.category === 'Shops'
+    );
+    this.setState({ locations: shops });
+  }
+
+  foodFilter() {
+    let foods = this.state.allLocations.filter(
+      el => el.props.category === 'Food and Drink'
+    );
+    this.setState({ locations: foods });
+  }
+
+  recFilter() {
+    let recs = this.state.allLocations.filter(
+      el => el.props.category === 'Recreation'
+    );
+    this.setState({ locations: recs });
+  }
+
+  reset() {
+    this.setState({ locations: this.state.allLocations });
+  }
 
   render() {
     // if (this.props.transactions) {
@@ -57,14 +109,12 @@ export default class Map extends Component {
             longitudeDelta: 0.1,
           }}
         >
-          <MapView.Marker
-            coordinate={{ latitude: 40.705307, longitude: -74.009088 }}
-            title={'Fullstack'}
-            image={education}
-            style={styles.marker}
-            description={this.props.transactions[0].name}
-          />
+          {this.state.locations.map(el => el)}
         </MapView>
+        <Button title="Recreation" onPress={() => this.recFilter()} />
+        <Button title="Food and Drink" onPress={() => this.foodFilter()} />
+        <Button title="Shopping" onPress={() => this.shopFilter()} />
+        <Button title="All Purchases" onPress={() => this.reset()} />
       </View>
     );
     // } else {
@@ -90,9 +140,5 @@ const styles = StyleSheet.create({
     bottom: 0,
 
     right: 0,
-  },
-  marker: {
-    width: 40,
-    height: 40,
   },
 });
