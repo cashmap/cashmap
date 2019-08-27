@@ -1,45 +1,46 @@
-import React, { Component } from 'react';
-import firebase from 'firebase';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import PlaidAuthenticator from 'react-native-plaid-link';
-import PlaidScreen from './PlaidScreen';
-const education = require('../assets/education.png');
-const mapStyle = require('./jsons/darkmap');
+import React, { Component } from "react";
+import firebase from "firebase";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import PlaidAuthenticator from "react-native-plaid-link";
+import PlaidScreen from "./PlaidScreen";
+import { Image } from "react-native";
+const mapIcon = require("../assets/testpin.png");
+const mapStyle = require("./jsons/darkmap");
 import {
   createAppContainer,
   createSwitchNavigator,
   createDrawerNavigator,
-  NavigationEvents,
-} from 'react-navigation';
+  NavigationEvents
+} from "react-navigation";
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button,
-} from 'react-native';
+  Button
+} from "react-native";
 export default class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
       locations: [],
-      allLocations: [],
+      allLocations: []
     };
   }
 
   async componentDidMount() {
     let filteredLocations = this.generateLocations();
-    console.log('filteredLocations: ', filteredLocations);
+    console.log("filteredLocations: ", filteredLocations);
     await this.setState({
       locations: filteredLocations,
-      allLocations: filteredLocations,
+      allLocations: filteredLocations
     });
 
-    console.log('locations state: ', this.state.locations);
+    console.log("locations state: ", this.state.locations);
   }
 
   onNavigate = () => {
-    this.props.navigation.navigate('FusionBar');
+    this.props.navigation.navigate("FusionBar");
   };
 
   getRandomInRange(from, to, fixed) {
@@ -50,41 +51,43 @@ export default class Map extends Component {
     return this.props.transactions
       .filter(
         el =>
-          el.category[0] === 'Food and Drink' ||
-          el.category[0] === 'Shops' ||
-          el.category[0] === 'Recreation'
+          el.category[0] === "Food and Drink" ||
+          el.category[0] === "Shops" ||
+          el.category[0] === "Recreation"
       )
       .map(el => (
         <MapView.Marker
           coordinate={{
             latitude: this.getRandomInRange(40.605, 40.805, 3),
-            longitude: this.getRandomInRange(-73.909, -74.109, 3),
+            longitude: this.getRandomInRange(-73.909, -74.109, 3)
           }}
           title={el.name}
           style={styles.marker}
           description={`$${el.amount}`}
           category={el.category[0]}
-        />
+        >
+          <Image source={mapIcon} style={{ height: 24, width: 24 }} />
+        </MapView.Marker>
       ));
   }
 
   shopFilter() {
     let shops = this.state.allLocations.filter(
-      el => el.props.category === 'Shops'
+      el => el.props.category === "Shops"
     );
     this.setState({ locations: shops });
   }
 
   foodFilter() {
     let foods = this.state.allLocations.filter(
-      el => el.props.category === 'Food and Drink'
+      el => el.props.category === "Food and Drink"
     );
     this.setState({ locations: foods });
   }
 
   recFilter() {
     let recs = this.state.allLocations.filter(
-      el => el.props.category === 'Recreation'
+      el => el.props.category === "Recreation"
     );
     this.setState({ locations: recs });
   }
@@ -106,7 +109,7 @@ export default class Map extends Component {
             latitude: 40.705307,
             longitude: -74.009088,
             latitudeDelta: 0.1,
-            longitudeDelta: 0.1,
+            longitudeDelta: 0.1
           }}
         >
           {this.state.locations.map(el => el)}
@@ -125,20 +128,20 @@ export default class Map extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end', //center
-    position: 'absolute',
+    alignItems: "center",
+    justifyContent: "flex-end", //center
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0,
+    right: 0
   },
   map: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
 
-    right: 0,
-  },
+    right: 0
+  }
 });
