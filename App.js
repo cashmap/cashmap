@@ -24,9 +24,11 @@ const AppDrawerNavigator = createDrawerNavigator(
     },
     LoginScreen: {
       screen: LoginScreen,
+      navigationOptions: { drawerLockMode: 'locked-closed' },
     },
     PlaidScreen: {
       screen: PlaidScreen,
+      navigationOptions: { drawerLockMode: 'locked-closed' },
     },
     DashboardScreen: {
       screen: DashboardScreen,
