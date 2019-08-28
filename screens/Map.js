@@ -1,47 +1,46 @@
-import React, { Component } from "react";
-import firebase from "firebase";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import PlaidAuthenticator from "react-native-plaid-link";
-import PlaidScreen from "./PlaidScreen";
-import { Image } from "react-native";
-const mapIcon = require("../assets/testpin.png");
-const mapStyle = require("./jsons/darkmap");
+import React, { Component } from 'react';
+import firebase from 'firebase';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import PlaidAuthenticator from 'react-native-plaid-link';
+import PlaidScreen from './PlaidScreen';
+import { Image } from 'react-native';
+const mapIcon = require('../assets/testpin.png');
+const mapStyle = require('./jsons/darkmap');
 import {
   createAppContainer,
   createSwitchNavigator,
   createDrawerNavigator,
-  NavigationEvents
-} from "react-navigation";
+  NavigationEvents,
+} from 'react-navigation';
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button
-} from "react-native";
-
+  Button,
+} from 'react-native';
 export default class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
       locations: [],
-      allLocations: []
+      allLocations: [],
     };
   }
 
   async componentDidMount() {
     let filteredLocations = this.generateLocations();
-
+    console.log('filteredLocations: ', filteredLocations);
     await this.setState({
       locations: filteredLocations,
-      allLocations: filteredLocations
+      allLocations: filteredLocations,
     });
 
-    console.log("locations from props: ", this.props.locations);
+    console.log('locations state: ', this.state.locations);
   }
 
   onNavigate = () => {
-    this.props.navigation.navigate("FusionBar");
+    this.props.navigation.navigate('FusionBar');
   };
 
   getRandomInRange(from, to, fixed) {
@@ -52,15 +51,15 @@ export default class Map extends Component {
     return this.props.transactions
       .filter(
         el =>
-          el.category[0] === "Food and Drink" ||
-          el.category[0] === "Shops" ||
-          el.category[0] === "Recreation"
+          el.category[0] === 'Food and Drink' ||
+          el.category[0] === 'Shops' ||
+          el.category[0] === 'Recreation'
       )
       .map(el => (
         <MapView.Marker
           coordinate={{
             latitude: this.getRandomInRange(40.605, 40.805, 3),
-            longitude: this.getRandomInRange(-73.909, -74.109, 3)
+            longitude: this.getRandomInRange(-73.909, -74.109, 3),
           }}
           title={el.name}
           style={styles.marker}
@@ -73,22 +72,22 @@ export default class Map extends Component {
   }
 
   shopFilter() {
-    let shops = this.state.allLocations.filter(
-      el => el.props.category === "Shops"
+    let shops = this.state.locations.filter(
+      el => el.props.category === 'Shops'
     );
     this.setState({ locations: shops });
   }
 
   foodFilter() {
-    let foods = this.state.allLocations.filter(
-      el => el.props.category === "Food and Drink"
+    let foods = this.state.locations.filter(
+      el => el.props.category === 'Food and Drink'
     );
     this.setState({ locations: foods });
   }
 
   recFilter() {
-    let recs = this.state.allLocations.filter(
-      el => el.props.category === "Recreation"
+    let recs = this.state.locations.filter(
+      el => el.props.category === 'Recreation'
     );
     this.setState({ locations: recs });
   }
@@ -99,7 +98,7 @@ export default class Map extends Component {
 
   render() {
     // if (this.props.transactions) {
-    console.log("this.props:", this.props.transactions.length);
+
     return (
       <View style={styles.container}>
         <MapView
@@ -110,10 +109,10 @@ export default class Map extends Component {
             latitude: 40.705307,
             longitude: -74.009088,
             latitudeDelta: 0.1,
-            longitudeDelta: 0.1
+            longitudeDelta: 0.1,
           }}
         >
-          {this.props.locations.map(el => el)}
+          {this.state.locations.map(el => el)}
         </MapView>
         <Button title="Recreation" onPress={() => this.recFilter()} />
         <Button title="Food and Drink" onPress={() => this.foodFilter()} />
@@ -129,20 +128,20 @@ export default class Map extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end", //center
-    position: "absolute",
+    alignItems: 'center',
+    justifyContent: 'flex-end', //center
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0
+    right: 0,
   },
   map: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
 
-    right: 0
-  }
+    right: 0,
+  },
 });
