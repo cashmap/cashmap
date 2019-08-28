@@ -1,13 +1,17 @@
-import React, { Component } from "react";
-import firebase from "firebase";
-import { Icon } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import PlaidAuthenticator from "react-native-plaid-link";
-import getTransResult from "./PlaidScreen";
-import Map from "./Map";
-import MenuButton from "../components/MenuButton";
 
-const mapStyle = require("./jsons/darkmap");
+import React, { Component } from 'react';
+import firebase from 'firebase';
+import { Icon } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import PlaidAuthenticator from 'react-native-plaid-link';
+import getTransResult from './PlaidScreen';
+import Map from './Map';
+import { Image } from 'react-native';
+import DatePicker from 'react-native-datepicker';
+import MenuButton from '../components/MenuButton';
+const mapIcon = require('../assets/testpin.png');
+const mapStyle = require('./jsons/darkmap');
+
 
 import {
   createAppContainer,
@@ -28,10 +32,17 @@ export default class DashboardScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: "",
-      status: "",
-      accesstoken: "",
-      transactions: {}
+
+      data: '',
+      status: '',
+      accesstoken: '',
+      transactions: {},
+      allLocations: [],
+      dateLocations: null,
+      locations: null,
+      startDate: '2017-01-01',
+      endDate: '2019-01-01',
+
     };
   }
 
@@ -69,9 +80,116 @@ export default class DashboardScreen extends Component {
     });
     console.log("getTrans is Running!");
     if (getTransResult) {
-      this.setState({ transactions: getTransResult });
+      await this.setState({ transactions: getTransResult });
+      let filteredLocations = this.generateLocations();
+
+      await this.setState({
+        locations: filteredLocations,
+        allLocations: filteredLocations,
+        dateLocations: filteredLocations,
+      });
     }
   }
+
+  transUpdater = async () => {
+    console.log('start Date: ', this.state.startDate);
+    console.log('end Date: ', this.state.endDate);
+    const { data: getTransResult } = await firebase
+      .functions()
+      .httpsCallable('getTrans')({
+      access_token: this.state.accesstoken,
+      start_date: this.state.startDate,
+      end_date: this.state.endDate,
+    });
+    console.log('transUpdater is Running!');
+    if (getTransResult) {
+      let transactionIds = [];
+      for (let i = 0; i < getTransResult.transactions.length; i++) {
+        transactionIds.push(getTransResult.transactions[i].transaction_id);
+      }
+
+      this.setState({
+        transactions: getTransResult,
+        dateLocations: this.state.allLocations.filter(el =>
+          transactionIds.includes(el.key)
+        ),
+      });
+    }
+  };
+
+  getRandomInRange(from, to, fixed) {
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+  }
+
+  generateLocations() {
+    return this.state.transactions.transactions
+      .filter(
+        el =>
+          el.category[0] === 'Food and Drink' ||
+          el.category[0] === 'Shops' ||
+          el.category[0] === 'Recreation'
+      )
+      .map(el => (
+        <MapView.Marker
+          coordinate={{
+            latitude: this.getRandomInRange(40.605, 40.805, 3),
+            longitude: this.getRandomInRange(-73.909, -74.109, 3),
+          }}
+          key={el.transaction_id}
+          title={el.name}
+          style={styles.marker}
+          description={`$${el.amount}`}
+          category={el.category[0]}
+        >
+          <Image source={mapIcon} style={{ height: 24, width: 24 }} />
+        </MapView.Marker>
+      ));
+  }
+
+  shopFilter() {
+    let shops = this.state.dateLocations.filter(
+      el => el.props.category === 'Shops'
+    );
+    this.setState({ locations: shops });
+  }
+
+  foodFilter() {
+    let foods = this.state.dateLocations.filter(
+      el => el.props.category === 'Food and Drink'
+    );
+    this.setState({ locations: foods });
+  }
+
+  recFilter() {
+    let recs = this.state.dateLocations.filter(
+      el => el.props.category === 'Recreation'
+    );
+    this.setState({ locations: recs });
+  }
+
+  reset() {
+    this.setState({
+      locations: null,
+      dateLocations: this.state.allLocations,
+    });
+  }
+
+  checkState = () => {
+    if (
+      this.state.allLocations &&
+      this.state.locations &&
+      this.state.dateLocations
+    ) {
+      console.log('locations firing');
+      return this.state.locations;
+    } else if (this.state.allLocations && this.state.dateLocations) {
+      console.log('dateLocations firing');
+      return this.state.dateLocations;
+    } else {
+      console.log('allLocations firing');
+      return this.state.allLocations;
+    }
+  };
 
   render() {
     if (this.state.transactions.transactions) {
@@ -81,17 +199,69 @@ export default class DashboardScreen extends Component {
 
           <MenuButton navigation={this.props.navigation} />
 
-          <Map
+          <MapView
             provider={PROVIDER_GOOGLE}
+            style={styles.map}
             customMapStyle={mapStyle}
-            transactions={this.state.transactions.transactions}
-            navigation={this.props.navigation}
-          />
-          <MapFilters />
+
+            region={{
+              latitude: 40.705307,
+              longitude: -74.009088,
+              latitudeDelta: 0.25,
+              longitudeDelta: 0.25,
+            }}
+          >
+            {this.checkState().map(el => el)}
+          </MapView>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <DatePicker
+              style={{ width: 150 }}
+              date={this.state.startDate} //initial date from state
+              mode="date" //The enum of date, datetime and time
+              placeholder="select start date"
+              format="YYYY-MM-DD"
+              minDate="2016-01-01"
+              maxDate="2019-01-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              showIcon={false}
+              onDateChange={date => {
+                this.setState({ startDate: date });
+              }}
+            />
+            <DatePicker
+              style={{ width: 150 }}
+              date={this.state.endDate} //initial date from state
+              mode="date" //The enum of date, datetime and time
+              placeholder="select end date"
+              format="YYYY-MM-DD"
+              minDate="2016-01-01"
+              maxDate="2019-01-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              showIcon={false}
+              onDateChange={date => {
+                this.setState({ endDate: date });
+              }}
+            />
+          </View>
+
+          <Button title="Submit" onPress={this.transUpdater} />
+          <Button title="Recreation" onPress={() => this.recFilter()} />
+          <Button title="Food and Drink" onPress={() => this.foodFilter()} />
+          <Button title="Shopping" onPress={() => this.shopFilter()} />
+          <Button title="All Purchases" onPress={() => this.reset()} />
         </View>
       );
     } else {
-      return <View style={{ backgroundColor: "red" }}></View>;
+      return <View style={{ backgroundColor: 'red' }} />;
+
     }
   }
 }

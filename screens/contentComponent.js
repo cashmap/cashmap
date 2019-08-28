@@ -7,6 +7,7 @@ import {
   View,
   TouchableHighlight,
   TouchableOpacity,
+
   ScrollView,
   Dimensions,
   ImageBackground
@@ -16,6 +17,7 @@ import { FontAwesome } from "@expo/vector-icons";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
+
 export default class contentComponent extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,7 @@ export default class contentComponent extends Component {
       user: {}
     };
   }
+
 
   navLink(nav, text) {
     return (
@@ -57,6 +60,7 @@ export default class contentComponent extends Component {
                     ? firebase.auth().currentUser.displayName
                     : "Alan Yoho"}
                 </Text>
+
               </View>
             </View>
           </View>
@@ -74,6 +78,7 @@ export default class contentComponent extends Component {
     );
   }
 }
+
 
 styles = StyleSheet.create({
   container: {
@@ -102,6 +107,7 @@ styles = StyleSheet.create({
     paddingBottom: 5,
     color: "white",
     textAlign: "left"
+
   },
   imgView: {
     flex: 1,
@@ -153,5 +159,6 @@ styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 16,
     color: "#0d1627"
+
   }
 });
