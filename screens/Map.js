@@ -19,6 +19,7 @@ import {
   ActivityIndicator,
   Button
 } from "react-native";
+
 export default class Map extends Component {
   constructor(props) {
     super(props);
@@ -30,13 +31,13 @@ export default class Map extends Component {
 
   async componentDidMount() {
     let filteredLocations = this.generateLocations();
-    console.log("filteredLocations: ", filteredLocations);
+
     await this.setState({
       locations: filteredLocations,
       allLocations: filteredLocations
     });
 
-    console.log("locations state: ", this.state.locations);
+    console.log("locations from props: ", this.props.locations);
   }
 
   onNavigate = () => {
@@ -98,7 +99,7 @@ export default class Map extends Component {
 
   render() {
     // if (this.props.transactions) {
-
+    console.log("this.props:", this.props.transactions.length);
     return (
       <View style={styles.container}>
         <MapView
@@ -112,7 +113,7 @@ export default class Map extends Component {
             longitudeDelta: 0.1
           }}
         >
-          {this.state.locations.map(el => el)}
+          {this.props.locations.map(el => el)}
         </MapView>
         <Button title="Recreation" onPress={() => this.recFilter()} />
         <Button title="Food and Drink" onPress={() => this.foodFilter()} />
