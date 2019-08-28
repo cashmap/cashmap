@@ -35,7 +35,7 @@ export default class DashboardScreen extends Component {
       transactions: {},
       allLocations: [],
       dateLocations: null,
-      locations: [],
+      locations: null,
       startDate: '2017-01-01',
       endDate: '2019-01-01',
     };
@@ -81,6 +81,7 @@ export default class DashboardScreen extends Component {
       await this.setState({
         locations: filteredLocations,
         allLocations: filteredLocations,
+        dateLocations: filteredLocations,
       });
     }
   }
@@ -101,7 +102,6 @@ export default class DashboardScreen extends Component {
       for (let i = 0; i < getTransResult.transactions.length; i++) {
         transactionIds.push(getTransResult.transactions[i].transaction_id);
       }
-      console.log('getTransResult:', getTransResult);
 
       this.setState({
         transactions: getTransResult,
@@ -109,10 +109,6 @@ export default class DashboardScreen extends Component {
           transactionIds.includes(el.key)
         ),
       });
-      console.log(
-        'are we initializing dateLocations? ',
-        this.state.dateLocations
-      );
     }
   };
 
@@ -146,23 +142,21 @@ export default class DashboardScreen extends Component {
   }
 
   shopFilter() {
-    let dateSet = this.state.dateLocations ? 'dateLocations' : 'allLocations';
-
-    let shops = this.state[dateSet].filter(el => el.props.category === 'Shops');
+    let shops = this.state.dateLocations.filter(
+      el => el.props.category === 'Shops'
+    );
     this.setState({ locations: shops });
   }
 
   foodFilter() {
-    let dateSet = this.state.dateLocations ? 'dateLocations' : 'allLocations';
-    let foods = this.state[dateSet].filter(
+    let foods = this.state.dateLocations.filter(
       el => el.props.category === 'Food and Drink'
     );
     this.setState({ locations: foods });
   }
 
   recFilter() {
-    let dateSet = this.state.dateLocations ? 'dateLocations' : 'allLocations';
-    let recs = this.state[dateSet].filter(
+    let recs = this.state.dateLocations.filter(
       el => el.props.category === 'Recreation'
     );
     this.setState({ locations: recs });
@@ -170,16 +164,29 @@ export default class DashboardScreen extends Component {
 
   reset() {
     this.setState({
-      locations: this.state.allLocations,
+      locations: null,
       dateLocations: this.state.allLocations,
     });
   }
 
+  checkState = () => {
+    if (
+      this.state.allLocations &&
+      this.state.locations &&
+      this.state.dateLocations
+    ) {
+      console.log('locations firing');
+      return this.state.locations;
+    } else if (this.state.allLocations && this.state.dateLocations) {
+      console.log('dateLocations firing');
+      return this.state.dateLocations;
+    } else {
+      console.log('allLocations firing');
+      return this.state.allLocations;
+    }
+  };
+
   render() {
-    // console.log(
-    //   "DASHBOARD SCREEN STATE------------",
-    //   this.state.transactions.transactions
-    // );
     if (this.state.transactions.transactions) {
       return (
         <View style={styles.container}>
@@ -198,9 +205,7 @@ export default class DashboardScreen extends Component {
               longitudeDelta: 0.25,
             }}
           >
-            {this.state.dateLocations
-              ? this.state.dateLocations.map(el => el)
-              : this.state.locations.map(el => el)}
+            {this.checkState().map(el => el)}
           </MapView>
           <View
             style={{
