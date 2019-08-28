@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
@@ -6,6 +7,7 @@ import PlaidScreen from './PlaidScreen';
 import { Image } from 'react-native';
 const mapIcon = require('../assets/testpin.png');
 const mapStyle = require('./jsons/darkmap');
+
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -18,7 +20,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   Button,
+
 } from 'react-native';
+
 export default class Map extends Component {
   constructor(props) {
     super(props);
