@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import firebase from 'firebase';
+import React, { Component } from "react";
+import firebase from "firebase";
 import {
   StyleSheet,
   Image,
@@ -8,140 +8,150 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   ScrollView,
-} from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+  Dimensions,
+  ImageBackground
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+
+const WIDTH = Dimensions.get("window").width;
+const HEIGHT = Dimensions.get("window").height;
 
 export default class contentComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
+      user: {}
     };
   }
 
-  render() {
-    console.log('contentComponent says: ', firebase.auth().currentUser);
-
+  navLink(nav, text) {
     return (
       <TouchableOpacity
-        activeOpacity={1}
-        style={styles.drawerTransparent}
-        onPress={() => this.props.navigation.goBack()}
+        style={{ height: 50 }}
+        onPress={() => this.props.navigation.navigate(nav)}
       >
-        <TouchableOpacity
-          activeOpacity={1}
-          style={styles.drawer}
-          disabled={false}
-        >
-          <ScrollView>
-            <View style={styles.header}>
-              {firebase.auth().currentUser ? (
-                <React.Fragment>
-                  <Text style={[styles.userText, { color: 'white' }]}>
-                    {firebase.auth().currentUser.displayName}
-                  </Text>
-
-                  <Image
-                    style={styles.image}
-                    source={{ uri: firebase.auth().currentUser.photoURL }}
-                  />
-                </React.Fragment>
-              ) : (
-                <Text></Text>
-              )}
-            </View>
-
-            <TouchableHighlight
-              onPress={() => this.props.navigation.navigate('DashboardScreen')}
-            >
-              <View style={styles.row}>
-                <Text style={styles.text}>Map</Text>
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              onPress={() => this.props.navigation.navigate('FusionBar')}
-            >
-              <View style={styles.row}>
-                <Text style={styles.text}>Bar</Text>
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              onPress={() => this.props.navigation.navigate('PieChart')}
-            >
-              <View style={styles.row}>
-                <Text style={styles.text}>Pie</Text>
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              style={styles.LogOut}
-              onPress={() => firebase.auth().signOut()}
-            >
-              <View style={styles.row}>
-                <FontAwesome size={28} name={'sign-out'} />
-                <Text style={styles.text}>Log Out</Text>
-              </View>
-            </TouchableHighlight>
-          </ScrollView>
-        </TouchableOpacity>
+        <Text style={styles.link}>{text}</Text>
       </TouchableOpacity>
+    );
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <ScrollView style={styles.scroller}>
+          <View style={styles.topLinks}>
+            <View style={styles.profile}>
+              <View style={styles.imgView}>
+                <Image
+                  style={styles.img}
+                  source={{
+                    uri: firebase.auth().currentUser
+                      ? firebase.auth().currentUser.photoURL
+                      : "https://thesocietypages.org/socimages/files/2009/05/nopic_192.gif"
+                  }}
+                />
+              </View>
+              <View style={styles.profileText}>
+                <Text style={[styles.name, { color: "white" }]}>
+                  {firebase.auth().currentUser
+                    ? firebase.auth().currentUser.displayName
+                    : "Alan Yoho"}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.bottomLinks}>
+            {this.navLink("DashboardScreen", "Map")}
+            {this.navLink("PieChart", "Pie")}
+            {this.navLink("FusionBar", "Bar")}
+          </View>
+        </ScrollView>
+        <View style={styles.footer}>
+          <Text style={styles.description}>CashMap</Text>
+          <Text style={styles.version}>v1.0</Text>
+        </View>
+      </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  LogOut: {
-    backgroundColor: 'lightgrey',
-    color: '#111',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 200,
-  },
-  text: {
-    color: '#111',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 15,
-  },
-  userText: {
-    color: '#111',
-    fontSize: 20,
-    fontWeight: 'bold',
-    alignContent: 'center',
-  },
-  drawer: {
+styles = StyleSheet.create({
+  container: {
     flex: 1,
-    backgroundColor: 'white',
-    width: 200,
+    backgroundColor: "lightgray",
+    width: "75%"
   },
-  drawerTransparent: {
+  scroller: {
+    flex: 1
+  },
+  profile: {
     flex: 1,
-    backgroundColor: 'transparent',
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: 25,
+    borderBottomWidth: 2,
+    borderBottomColor: "#fff"
   },
-  header: {
-    width: '100%',
-    height: 200,
-    backgroundColor: '#217393',
-    alignItems: 'center',
-    justifyContent: 'center',
+  profileText: {
+    flex: 3,
+    flexDirection: "column",
+    justifyContent: "center"
   },
-  row: {
-    flexDirection: 'row',
-    paddingVertical: 15,
-    paddingLeft: 10,
+  name: {
+    fontSize: 20,
+    paddingBottom: 5,
+    color: "white",
+    textAlign: "left"
   },
-  image: {
-    width: 65,
-    height: 65,
-    marginTop: 20,
+  imgView: {
+    flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20
   },
-  menu: {
-    width: 10,
-    height: 10,
-    backgroundColor: 'red',
-    borderRadius: 50,
-    alignSelf: 'center',
+  img: {
+    height: 70,
+    width: 70,
+    borderRadius: 35,
+    borderWidth: 2,
+    borderColor: "white"
   },
+  topLinks: {
+    height: 160,
+    backgroundColor: "#0d1627"
+  },
+  bottomLinks: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingTop: 10,
+    paddingBottom: 450
+  },
+  link: {
+    flex: 1,
+    fontSize: 24,
+    padding: 20,
+    paddingLeft: 14,
+    margin: 0,
+    textAlign: "left",
+    color: "#0d1627"
+  },
+  footer: {
+    height: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fbfbfb",
+    borderTopWidth: 1,
+    borderTopColor: "lightgray"
+  },
+  version: {
+    flex: 1,
+    textAlign: "right",
+    marginRight: 20,
+    color: "lightgray"
+  },
+  description: {
+    flex: 1,
+    marginLeft: 20,
+    fontSize: 16,
+    color: "#0d1627"
+  }
 });

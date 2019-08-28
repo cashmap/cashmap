@@ -4,6 +4,7 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import PlaidAuthenticator from "react-native-plaid-link";
 import PlaidScreen from "./PlaidScreen";
 import { Image } from "react-native";
+import MapFilters from "./MapFilters";
 const mapIcon = require("../assets/testpin.png");
 const mapStyle = require("./jsons/darkmap");
 import {
@@ -17,8 +18,10 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button
+  Button,
+  Fragment
 } from "react-native";
+import MapFilter from "./MapFilters";
 export default class Map extends Component {
   constructor(props) {
     super(props);
