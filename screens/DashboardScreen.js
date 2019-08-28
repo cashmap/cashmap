@@ -35,7 +35,7 @@ export default class DashboardScreen extends Component {
       transactions: {},
       allLocations: [],
       dateLocations: null,
-      locations: null,
+      locations: [],
       startDate: '2017-01-01',
       endDate: '2019-01-01',
     };
@@ -169,7 +169,10 @@ export default class DashboardScreen extends Component {
   }
 
   reset() {
-    this.setState({ locations: this.state.allLocations });
+    this.setState({
+      locations: this.state.allLocations,
+      dateLocations: this.state.allLocations,
+    });
   }
 
   render() {
