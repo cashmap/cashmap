@@ -187,7 +187,11 @@ export default class PlainColumn2D extends Component {
         chart: {
           numberPrefix: "$",
           numberSuffix: "",
-          theme: "fusion"
+
+          theme: "fusion",
+          bgColor: "#0d1627",
+          baseFontColor: "#FFFFFF"
+
         },
         data: [
           {
@@ -243,7 +247,9 @@ export default class PlainColumn2D extends Component {
             libraryPath={this.libraryPath} // set the libraryPath property
           />
         </View>
-        <Text>Update Date Range: </Text>
+        <Text h4 style={styles.subHeader}>
+          Update Date Range:{" "}
+        </Text>
 
         <View
           style={{
@@ -253,7 +259,11 @@ export default class PlainColumn2D extends Component {
           }}
         >
           <DatePicker
-            style={{ width: 150 }}
+            style={{
+              width: 150,
+              dateInput: { borderColor: "blue", borderWidth: 1 },
+              dateTouchBody: { borderColor: "white", borderWidth: 3 }
+            }}
             date={this.state.startDate} //initial date from state
             mode="date" //The enum of date, datetime and time
             placeholder="select start date"
@@ -268,7 +278,11 @@ export default class PlainColumn2D extends Component {
             }}
           />
           <DatePicker
-            style={{ width: 150 }}
+            style={{
+              width: 150,
+              dateInput: { borderColor: "blue", borderWidth: 1 },
+              dateTouchBody: { borderColor: "white", borderWidth: 3 }
+            }}
             date={this.state.endDate} //initial date from state
             mode="date" //The enum of date, datetime and time
             placeholder="select end date"
@@ -298,18 +312,24 @@ export default class PlainColumn2D extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    backgroundColor: "#0d1627",
     padding: 10,
     justifyContent: "flex-start"
   },
   header: {
     fontWeight: "bold",
+
+    color: "#FFFFFF",
+
     fontSize: 20,
     textAlign: "center",
     paddingBottom: 10
   },
   subHeader: {
     fontWeight: "bold",
+
+    color: "#FFFFFF",
+
     fontSize: 14,
     textAlign: "center",
     paddingBottom: 10
