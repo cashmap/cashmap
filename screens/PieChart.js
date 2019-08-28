@@ -24,10 +24,10 @@ export default class PieChart extends Component {
       dataSource: {
         chart: {
           caption: "Spending by Category",
-
+          bgColor: "#0d1627",
           numberSuffix: "",
           numberPrefix: "$",
-
+          baseFontColor: "#FFFFFF",
           theme: "fusion"
         },
         data: [
@@ -201,10 +201,11 @@ export default class PieChart extends Component {
         chart: {
           caption: "Spending by Category",
           subCaption: `${this.state.startDate} - ${this.state.endDate}`,
-
+          bgColor: "#0d1627",
+          baseFontColor: "#FFFFFF",
           numberPrefix: "$",
           numberSuffix: "",
-          theme: "fusion"
+          theme: "candy"
         },
         data: [
           {
@@ -316,10 +317,12 @@ export default class PieChart extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#0d1627",
     padding: 10
   },
   header: {
     fontWeight: "bold",
+    color: "#FFFFFF",
     fontSize: 20,
     textAlign: "center",
     paddingBottom: 16
