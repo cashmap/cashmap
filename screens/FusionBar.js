@@ -187,9 +187,11 @@ export default class PlainColumn2D extends Component {
         chart: {
           numberPrefix: "$",
           numberSuffix: "",
+
           theme: "fusion",
           bgColor: "#0d1627",
           baseFontColor: "#FFFFFF"
+
         },
         data: [
           {
@@ -316,14 +318,18 @@ const styles = StyleSheet.create({
   },
   header: {
     fontWeight: "bold",
+
     color: "#FFFFFF",
+
     fontSize: 20,
     textAlign: "center",
     paddingBottom: 10
   },
   subHeader: {
     fontWeight: "bold",
+
     color: "#FFFFFF",
+
     fontSize: 14,
     textAlign: "center",
     paddingBottom: 10
