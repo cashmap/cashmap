@@ -34,7 +34,7 @@ Register with [Plaid's API](https://plaid.com/) to get a public key client secre
 
 In order to fully install all packages & dependencies:
 - `npm install` in your run time environment 
-- `cd` into `cloud functions` folder and `npm install` 
+- `cd functions/` folder and `npm install` 
 
 ### Logging In
 
