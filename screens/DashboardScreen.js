@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import firebase from "firebase";
 import { Icon } from "react-native";
@@ -14,34 +15,37 @@ import FilterButton from "./FilterButton";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Ionicons } from "@expo/vector-icons";
 
+
 import {
   createAppContainer,
   createSwitchNavigator,
   createDrawerNavigator,
-  NavigationEvents
-} from "react-navigation";
+  NavigationEvents,
+} from 'react-navigation';
 import {
   View,
   StyleSheet,
   ActivityIndicator,
   Button,
+
   Text
 } from "react-native";
 import MapFilters from "./MapFilters";
+
 
 export default class DashboardScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: "",
-      status: "",
-      accesstoken: "",
+      data: '',
+      status: '',
+      accesstoken: '',
       transactions: {},
       allLocations: [],
       dateLocations: null,
       locations: null,
-      startDate: "2017-01-01",
-      endDate: "2019-01-01"
+      startDate: '2017-01-01',
+      endDate: '2019-01-01',
     };
     this.recFilter = this.recFilter.bind(this);
     this.foodFilter = this.foodFilter.bind(this);
@@ -53,23 +57,23 @@ export default class DashboardScreen extends Component {
   componentDidMount() {
     firebase
       .firestore()
-      .collection("users")
+      .collection('users')
       .doc(firebase.auth().currentUser.providerData[0].uid)
       .get()
       .then(doc => {
         if (!doc.exists) {
-          console.log("No such document!");
+          console.log('No such document!');
         } else {
           let userAccessToken = doc.data().accesstoken;
           this.setState({
-            accesstoken: userAccessToken
+            accesstoken: userAccessToken,
           });
           console.log(this.state.accesstoken);
           this.transGetter();
         }
       })
       .catch(err => {
-        console.log("Error getting document", err);
+        console.log('Error getting document', err);
       });
   }
 
@@ -77,35 +81,37 @@ export default class DashboardScreen extends Component {
     const { data: getTransResult } = await firebase
       .functions()
 
-      .httpsCallable("getTrans")({
+      .httpsCallable('getTrans')({
       access_token: this.state.accesstoken,
-      start_date: "2017-01-01",
-      end_date: "2019-01-01"
+      start_date: '2017-01-01',
+      end_date: '2019-01-01',
     });
-    console.log("getTrans is Running!");
+    console.log('getTrans is Running!');
+
     if (getTransResult) {
+      console.log(getTransResult);
       await this.setState({ transactions: getTransResult });
       let filteredLocations = this.generateLocations();
 
       await this.setState({
         locations: filteredLocations,
         allLocations: filteredLocations,
-        dateLocations: filteredLocations
+        dateLocations: filteredLocations,
       });
     }
   }
 
   transUpdater = async () => {
-    console.log("start Date: ", this.state.startDate);
-    console.log("end Date: ", this.state.endDate);
+    console.log('start Date: ', this.state.startDate);
+    console.log('end Date: ', this.state.endDate);
     const { data: getTransResult } = await firebase
       .functions()
-      .httpsCallable("getTrans")({
+      .httpsCallable('getTrans')({
       access_token: this.state.accesstoken,
       start_date: this.state.startDate,
-      end_date: this.state.endDate
+      end_date: this.state.endDate,
     });
-    console.log("transUpdater is Running!");
+    console.log('transUpdater is Running!');
     if (getTransResult) {
       let transactionIds = [];
       for (let i = 0; i < getTransResult.transactions.length; i++) {
@@ -116,7 +122,7 @@ export default class DashboardScreen extends Component {
         transactions: getTransResult,
         dateLocations: this.state.allLocations.filter(el =>
           transactionIds.includes(el.key)
-        )
+        ),
       });
     }
   };
@@ -129,15 +135,15 @@ export default class DashboardScreen extends Component {
     return this.state.transactions.transactions
       .filter(
         el =>
-          el.category[0] === "Food and Drink" ||
-          el.category[0] === "Shops" ||
-          el.category[0] === "Recreation"
+          el.category[0] === 'Food and Drink' ||
+          el.category[0] === 'Shops' ||
+          el.category[0] === 'Recreation'
       )
       .map(el => (
         <MapView.Marker
           coordinate={{
             latitude: this.getRandomInRange(40.605, 40.805, 3),
-            longitude: this.getRandomInRange(-73.909, -74.109, 3)
+            longitude: this.getRandomInRange(-73.909, -74.109, 3),
           }}
           key={el.transaction_id}
           title={el.name}
@@ -152,21 +158,21 @@ export default class DashboardScreen extends Component {
 
   shopFilter() {
     let shops = this.state.dateLocations.filter(
-      el => el.props.category === "Shops"
+      el => el.props.category === 'Shops'
     );
     this.setState({ locations: shops });
   }
 
   foodFilter() {
     let foods = this.state.dateLocations.filter(
-      el => el.props.category === "Food and Drink"
+      el => el.props.category === 'Food and Drink'
     );
     this.setState({ locations: foods });
   }
 
   recFilter() {
     let recs = this.state.dateLocations.filter(
-      el => el.props.category === "Recreation"
+      el => el.props.category === 'Recreation'
     );
     this.setState({ locations: recs });
   }
@@ -174,7 +180,7 @@ export default class DashboardScreen extends Component {
   reset() {
     this.setState({
       locations: null,
-      dateLocations: this.state.allLocations
+      dateLocations: this.state.allLocations,
     });
   }
 
@@ -184,13 +190,13 @@ export default class DashboardScreen extends Component {
       this.state.locations &&
       this.state.dateLocations
     ) {
-      console.log("locations firing");
+      console.log('locations firing');
       return this.state.locations;
     } else if (this.state.allLocations && this.state.dateLocations) {
-      console.log("dateLocations firing");
+      console.log('dateLocations firing');
       return this.state.dateLocations;
     } else {
-      console.log("allLocations firing");
+      console.log('allLocations firing');
       return this.state.allLocations;
     }
   };
@@ -202,7 +208,11 @@ export default class DashboardScreen extends Component {
           <Text>Josh</Text>
 
           <MenuButton navigation={this.props.navigation} />
-
+          {/* <View style={styles.balance}>
+            <Text>
+              {this.state.}
+            </Text>
+          </View> */}
           <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
@@ -211,7 +221,7 @@ export default class DashboardScreen extends Component {
               latitude: 40.705307,
               longitude: -74.009088,
               latitudeDelta: 0.25,
-              longitudeDelta: 0.25
+              longitudeDelta: 0.25,
             }}
           >
             {this.checkState().map(el => el)}
@@ -219,8 +229,8 @@ export default class DashboardScreen extends Component {
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between"
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <SlidingUpPanel ref={c => (this._panel = c)}>
@@ -262,22 +272,22 @@ export default class DashboardScreen extends Component {
           </View>
           <FilterButton
             filter={this.recFilter}
-            icon={"md-bicycle"}
+            icon={'md-bicycle'}
             sty={styles.menuIcon}
           />
           <FilterButton
             filter={this.foodFilter}
-            icon={"ios-beer"}
+            icon={'ios-beer'}
             sty={styles.menuIcon2}
           />
           <FilterButton
             filter={this.shopFilter}
-            icon={"ios-pricetag"}
+            icon={'ios-pricetag'}
             sty={styles.menuIcon3}
           />
           <FilterButton
             filter={this.reset}
-            icon={"ios-infinite"}
+            icon={'ios-infinite'}
             sty={styles.menuIcon4}
           />
           <View style={styles.menuIcon5}>
@@ -299,7 +309,7 @@ export default class DashboardScreen extends Component {
         </View>
       );
     } else {
-      return <View style={{ backgroundColor: "red" }} />;
+      return <View style={{ backgroundColor: 'red' }} />;
     }
   }
 }
@@ -320,119 +330,125 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end", //center
-    position: "absolute",
+    alignItems: 'center',
+    justifyContent: 'flex-end', //center
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0
+    right: 0,
   },
   submit: {
     width: 20,
     borderRadius: 3,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
   map: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0
+    right: 0,
   },
   menuIcon: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 15,
     width: 40,
     height: 40,
     borderRadius: 20,
-    position: "absolute",
+    position: 'absolute',
     top: 100,
     left: 20,
-    shadowColor: "black",
-    borderColor: "white",
-    backgroundColor: "white",
+    shadowColor: 'black',
+    borderColor: 'white',
+    backgroundColor: 'white',
     shadowOffset: { width: 2, height: 2 },
-    shadowColor: "black",
-    shadowOpacity: 0.5
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
   },
   menuIcon2: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 15,
     width: 40,
     height: 40,
     borderRadius: 20,
-    position: "absolute",
+    position: 'absolute',
     top: 160,
     left: 20,
-    shadowColor: "black",
-    borderColor: "white",
-    backgroundColor: "white",
+    shadowColor: 'black',
+    borderColor: 'white',
+    backgroundColor: 'white',
     shadowOffset: { width: 2, height: 2 },
-    shadowColor: "black",
-    shadowOpacity: 0.5
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
   },
   menuIcon3: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 15,
     width: 40,
     height: 40,
     borderRadius: 20,
+
     position: "absolute",
     top: 220,
+
     left: 20,
-    shadowColor: "black",
-    borderColor: "white",
-    backgroundColor: "white",
+    shadowColor: 'black',
+    borderColor: 'white',
+    backgroundColor: 'white',
     shadowOffset: { width: 2, height: 2 },
-    shadowColor: "black",
-    shadowOpacity: 0.5
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
   },
   menuIcon4: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 15,
     width: 40,
     height: 40,
     borderRadius: 20,
+
     position: "absolute",
     top: 280,
+
     left: 20,
-    shadowColor: "black",
-    borderColor: "white",
-    backgroundColor: "white",
+    shadowColor: 'black',
+    borderColor: 'white',
+    backgroundColor: 'white',
     shadowOffset: { width: 2, height: 2 },
-    shadowColor: "black",
-    shadowOpacity: 0.5
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
   },
   menuIcon5: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 15,
     width: 40,
     height: 40,
     borderRadius: 20,
+
     position: "absolute",
     top: 340,
+
     left: 20,
-    shadowColor: "black",
-    borderColor: "white",
-    backgroundColor: "white",
+    shadowColor: 'black',
+    borderColor: 'white',
+    backgroundColor: 'white',
     shadowOffset: { width: 2, height: 2 },
-    shadowColor: "black",
-    shadowOpacity: 0.5
-  }
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+  },
 });
