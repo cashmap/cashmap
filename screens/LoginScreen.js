@@ -8,7 +8,9 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button
+  Button,
+  Image,
+  TouchableOpacity
 } from "react-native";
 
 class LoginScreen extends Component {
@@ -121,11 +123,20 @@ class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button
-          title="Sign In With Google"
-          onPress={() => this.signInWithGoogleAsync()}
-          // onPress={() => this.props.navigation.navigate("PlaidScreen")}
-        />
+        <View style={styles.backgroundContainer}>
+          <Image
+            style={styles.bakcgroundImage}
+            source={require("../assets/Background.png")}
+          />
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => this.signInWithGoogleAsync()}
+          >
+            <Text style={styles.login}>Log in with Google</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -136,7 +147,41 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "flex-end"
+  },
+  backgroundContainer: {
+    flex: 1,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%"
+  },
+  bakcgroundImage: {
+    flex: 1,
+    width: null,
+    height: null
+  },
+  loginButton: {
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+    width: 210,
+    height: 50,
+    borderRadius: 15,
+    marginBottom: 45,
+    shadowColor: "rgba(0, 0, 0, 0.4)",
+    shadowOpacity: 1,
+    elevation: 6,
+    shadowRadius: 10,
+    shadowOffset: { width: 4, height: 13 }
+  },
+  login: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#1e2f51"
   }
 });
