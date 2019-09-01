@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import firebase from "firebase";
 import { Icon } from "react-native";
@@ -14,6 +15,7 @@ import FilterButton from "./FilterButton";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Ionicons } from "@expo/vector-icons";
 
+
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -22,12 +24,15 @@ import {
 } from "react-navigation";
 import {
   View,
+  Text,
   StyleSheet,
   ActivityIndicator,
   Button,
+
   Text
 } from "react-native";
 import MapFilters from "./MapFilters";
+
 
 export default class DashboardScreen extends Component {
   constructor(props) {
@@ -85,7 +90,7 @@ export default class DashboardScreen extends Component {
     console.log("getTrans is Running!");
 
     if (getTransResult) {
-      console.log(getTransResult);
+      console.log(this.state.getTransResult);
       await this.setState({ transactions: getTransResult });
       let filteredLocations = this.generateLocations();
 
@@ -223,6 +228,7 @@ export default class DashboardScreen extends Component {
               justifyContent: "space-between"
             }}
           >
+
             <SlidingUpPanel
               ref={c => (this._panel = c)}
               draggableRange={{ top: 200, bottom: 0 }}
@@ -263,6 +269,7 @@ export default class DashboardScreen extends Component {
                 />
               </View>
             </SlidingUpPanel>
+
           </View>
           <FilterButton
             filter={this.recFilter}
@@ -284,16 +291,6 @@ export default class DashboardScreen extends Component {
             icon={"ios-infinite"}
             sty={styles.menuIcon4}
           />
-          <View style={styles.menuIcon5}>
-            <Ionicons
-              name={"ios-calendar"}
-              color="#0d1627"
-              size={25}
-              onPress={() => {
-                this._panel.show();
-              }}
-            />
-          </View>
 
           <Button
             style={styles.submit}
@@ -308,6 +305,7 @@ export default class DashboardScreen extends Component {
   }
 }
 const styles = StyleSheet.create({
+
   panel: {
     flex: 1,
     alignItems: "center",
@@ -316,6 +314,7 @@ const styles = StyleSheet.create({
     height: 300,
     width: "100%"
   },
+
   container: {
     flex: 1,
     alignItems: "center",
@@ -385,10 +384,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 220,
-
+    position: 'absolute',
+    top: 210,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
@@ -406,10 +403,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 280,
-
+    position: 'absolute',
+    top: 270,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
@@ -427,10 +422,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 340,
-
+    position: 'absolute',
+    top: 330,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
