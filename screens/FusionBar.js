@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 import firebase from 'firebase';
-
+import PieChart from './PieChart';
 import MenuButton from '../components/MenuButton';
 import DatePicker from 'react-native-datepicker';
 import { Button } from 'react-native-elements';
@@ -245,10 +245,8 @@ export default class PlainColumn2D extends Component {
             dataSource={this.state.dataSource}
             libraryPath={this.libraryPath} // set the libraryPath property
           />
+          <PieChart data={this.state.dataSource} />
         </View>
-        <Text h4 style={styles.subHeader}>
-          Update Date Range:{' '}
-        </Text>
 
         <View
           style={{
