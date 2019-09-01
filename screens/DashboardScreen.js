@@ -1,20 +1,16 @@
-
-import React, { Component } from "react";
-import firebase from "firebase";
-import { Icon } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import PlaidAuthenticator from "react-native-plaid-link";
-import getTransResult from "./PlaidScreen";
-import Map from "./Map";
-import { Image } from "react-native";
-import DatePicker from "react-native-datepicker";
-import MenuButton from "../components/MenuButton";
-const mapIcon = require("../assets/testpin.png");
-const mapStyle = require("./jsons/darkmap");
-import FilterButton from "./FilterButton";
-import SlidingUpPanel from "rn-sliding-up-panel";
-import { Ionicons } from "@expo/vector-icons";
-
+import React, { Component } from 'react';
+import firebase from 'firebase';
+import { Icon } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import PlaidAuthenticator from 'react-native-plaid-link';
+import getTransResult from './PlaidScreen';
+import Map from './Map';
+import { Image } from 'react-native';
+import DatePicker from 'react-native-datepicker';
+import MenuButton from '../components/MenuButton';
+const mapIcon = require('../assets/testpin.png');
+const mapStyle = require('./jsons/darkmap');
+import FilterButton from './FilterButton';
 
 import {
   createAppContainer,
@@ -24,14 +20,12 @@ import {
 } from 'react-navigation';
 import {
   View,
+  Text,
   StyleSheet,
   ActivityIndicator,
   Button,
-
-  Text
-} from "react-native";
-import MapFilters from "./MapFilters";
-
+} from 'react-native';
+import MapFilters from './MapFilters';
 
 export default class DashboardScreen extends Component {
   constructor(props) {
@@ -89,7 +83,7 @@ export default class DashboardScreen extends Component {
     console.log('getTrans is Running!');
 
     if (getTransResult) {
-      console.log(getTransResult);
+      console.log(this.state.getTransResult);
       await this.setState({ transactions: getTransResult });
       let filteredLocations = this.generateLocations();
 
@@ -233,42 +227,36 @@ export default class DashboardScreen extends Component {
               justifyContent: 'space-between',
             }}
           >
-            <SlidingUpPanel ref={c => (this._panel = c)}>
-              <View style={styles.hidepanel}>
-                <DatePicker
-                  style={{ width: 150 }}
-                  date={this.state.startDate} //initial date from state
-                  mode="date" //The enum of date, datetime and time
-                  placeholder="select start date"
-                  format="YYYY-MM-DD"
-                  minDate="2016-01-01"
-                  maxDate="2019-01-01"
-                  confirmBtnText="Confirm"
-                  cancelBtnText="Cancel"
-                  showIcon={false}
-                  onDateChange={date => {
-                    this.setState({ startDate: date });
-                  }}
-                />
-                <DatePicker
-                  style={{ width: 150 }}
-                  date={this.state.endDate} //initial date from state
-                  mode="date" //The enum of date, datetime and time
-                  placeholder="select end date"
-                  format="YYYY-MM-DD"
-                  minDate="2016-01-01"
-                  maxDate="2019-01-01"
-                  confirmBtnText="Confirm"
-                  cancelBtnText="Cancel"
-                  showIcon={false}
-                  onDateChange={date => {
-                    this.setState({ endDate: date });
-                  }}
-                />
-
-                <Button title="Hide" onPress={() => this._panel.hide()} />
-              </View>
-            </SlidingUpPanel>
+            <DatePicker
+              style={{ width: 150 }}
+              date={this.state.startDate} //initial date from state
+              mode="date" //The enum of date, datetime and time
+              placeholder="select start date"
+              format="YYYY-MM-DD"
+              minDate="2016-01-01"
+              maxDate="2019-01-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              showIcon={false}
+              onDateChange={date => {
+                this.setState({ startDate: date });
+              }}
+            />
+            <DatePicker
+              style={{ width: 150 }}
+              date={this.state.endDate} //initial date from state
+              mode="date" //The enum of date, datetime and time
+              placeholder="select end date"
+              format="YYYY-MM-DD"
+              minDate="2016-01-01"
+              maxDate="2019-01-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              showIcon={false}
+              onDateChange={date => {
+                this.setState({ endDate: date });
+              }}
+            />
           </View>
           <FilterButton
             filter={this.recFilter}
@@ -290,16 +278,6 @@ export default class DashboardScreen extends Component {
             icon={'ios-infinite'}
             sty={styles.menuIcon4}
           />
-          <View style={styles.menuIcon5}>
-            <Ionicons
-              name={"ios-calendar"}
-              color="#0d1627"
-              size={25}
-              onPress={() => {
-                this._panel.show();
-              }}
-            />
-          </View>
 
           <Button
             style={styles.submit}
@@ -314,20 +292,6 @@ export default class DashboardScreen extends Component {
   }
 }
 const styles = StyleSheet.create({
-  hidepanel: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "red",
-    height: "50%"
-  },
-  showpanel: {
-    flex: 1,
-    backgroundColor: "red",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "50%"
-  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -397,10 +361,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 220,
-
+    position: 'absolute',
+    top: 210,
     left: 20,
     shadowColor: 'black',
     borderColor: 'white',
@@ -418,10 +380,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 280,
-
+    position: 'absolute',
+    top: 270,
     left: 20,
     shadowColor: 'black',
     borderColor: 'white',
@@ -439,10 +399,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 340,
-
+    position: 'absolute',
+    top: 330,
     left: 20,
     shadowColor: 'black',
     borderColor: 'white',
