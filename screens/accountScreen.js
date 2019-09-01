@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Header } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
+import MenuButton from '../components/MenuButton';
 
 export default class AccountScreen extends Component {
   render() {
@@ -17,6 +18,7 @@ export default class AccountScreen extends Component {
 
     return (
       <View style={styles.container}>
+        <MenuButton navigation={this.props.navigation} />
         <FlatGrid
           itemDimension={130}
           items={items}
@@ -37,16 +39,18 @@ export default class AccountScreen extends Component {
             <Text
               style={{
                 color: 'white',
-                height: 50,
-                width: 200,
+                textAlign: 'center',
                 alignContent: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#44546B',
+                backgroundColor: '#000000',
                 borderRadius: 5,
-                padding: 50,
+                overflow: 'hidden',
+                padding: 25,
+                marginBottom: 10,
+                margin: 10,
               }}
             >
-              Accounts
+              FINANCIAL ACCOUNTS
             </Text>
           )}
         />
