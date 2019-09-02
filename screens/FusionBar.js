@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import FusionCharts from 'react-native-fusioncharts';
 import firebase from 'firebase';
 import PieChart from './PieChart';
 import MenuButton from '../components/MenuButton';
 import DatePicker from 'react-native-datepicker';
 import { Button } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class PlainColumn2D extends Component {
   constructor(props) {
@@ -122,11 +123,6 @@ export default class PlainColumn2D extends Component {
       console.log('getTransResult from updater: ', getTransResult);
       this.transFilter(getTransResult.transactions);
     }
-    console.log(
-      'transUpdater says: ',
-
-      this.state.transactions.transactions[4].amount
-    );
   }
 
   transFilter(transactions) {
@@ -224,8 +220,9 @@ export default class PlainColumn2D extends Component {
   }
 
   render() {
+    console.log('does access token exist?', this.state.accesstoken);
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <MenuButton navigation={this.props.navigation} />
         <Text style={styles.header}></Text>
         <Text style={styles.header}></Text>
@@ -248,18 +245,31 @@ export default class PlainColumn2D extends Component {
           <PieChart data={this.state.dataSource} />
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-          }}
-        >
+        <View style={styles.DatePicker}>
           <DatePicker
-            style={{
+            customStyles={{
               width: 150,
-              dateInput: { borderColor: 'blue', borderWidth: 1 },
-              dateTouchBody: { borderColor: 'white', borderWidth: 3 },
+              dateInput: {
+                color: 'white',
+                borderColor: 'rgba(52, 52, 52, 0)',
+              },
+              dateTouchBody: {
+                color: 'white',
+                borderColor: 'white',
+                borderWidth: 1,
+                borderRadius: 10,
+                margin: 10,
+                backgroundColor: 'white',
+                shadowColor: 'black',
+                shadowOffset: { width: 2, height: 2 },
+                shadowColor: 'black',
+                shadowOpacity: 0.5,
+              },
+              placeholderText: {
+                color: 'white',
+                fontSize: 20,
+              },
+              margin: 10,
             }}
             date={this.state.startDate} //initial date from state
             mode="date" //The enum of date, datetime and time
@@ -275,10 +285,29 @@ export default class PlainColumn2D extends Component {
             }}
           />
           <DatePicker
-            style={{
+            customStyles={{
               width: 150,
-              dateInput: { borderColor: 'blue', borderWidth: 1 },
-              dateTouchBody: { borderColor: 'white', borderWidth: 3 },
+              dateInput: {
+                color: 'white',
+                borderColor: 'rgba(52, 52, 52, 0)',
+              },
+              dateTouchBody: {
+                color: 'white',
+                borderColor: 'white',
+                borderWidth: 1,
+                borderRadius: 10,
+                margin: 10,
+                backgroundColor: 'white',
+                shadowColor: 'black',
+                shadowOffset: { width: 2, height: 2 },
+                shadowColor: 'black',
+                shadowOpacity: 0.5,
+              },
+              placeholderText: {
+                color: 'white',
+                fontSize: 20,
+              },
+              margin: 10,
             }}
             date={this.state.endDate} //initial date from state
             mode="date" //The enum of date, datetime and time
@@ -293,25 +322,53 @@ export default class PlainColumn2D extends Component {
               this.setState({ endDate: date });
             }}
           />
+          <View style={styles.refresh}>
+            <Ionicons
+              name="ios-refresh"
+              color="#0d1627"
+              size={18}
+              onPress={this.transUpdater(
+                this.state.startDate,
+                this.state.endDate
+              )}
+            />
+          </View>
         </View>
-
-        <Button
-          title="Refresh Chart"
-          onPress={() =>
-            this.transUpdater(this.state.startDate, this.state.endDate)
-          }
-        />
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  DatePicker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    height: '10%',
+    margin: 15,
+
+    width: '100%',
+  },
+  refresh: {
+    padding: 10,
+    color: 'white',
+    width: 38,
+    height: 38,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 19,
+    margin: 10,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    shadowColor: 'black',
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+  },
   container: {
-    flex: 1,
     backgroundColor: '#0d1627',
     padding: 10,
-    justifyContent: 'flex-start',
   },
   header: {
     fontWeight: 'bold',
@@ -334,8 +391,6 @@ const styles = StyleSheet.create({
   chartContainer: {
     height: 400,
 
-    flex: 1,
-    justifyContent: 'flex-start',
     fontSize: 4,
   },
 });
