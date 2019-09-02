@@ -24,9 +24,15 @@ export default class PlainColumn2D extends Component {
       dataFormat: 'json',
       dataSource: {
         chart: {
+          labelFontColor: 'ffffff',
+          labelFontSize: '8',
+          xAxisValueFontColor: '#000000',
           numberSuffix: '',
           numberPrefix: '$',
           theme: 'fusion',
+          toolTipBgColor: '#0d1627',
+          showLegend: '0',
+          chartTopPadding: '10',
         },
         data: [
           {
@@ -181,12 +187,16 @@ export default class PlainColumn2D extends Component {
       transactions: transactions,
       dataSource: {
         chart: {
+          labelFontColor: 'ffffff',
           numberPrefix: '$',
           numberSuffix: '',
-
+          labelFontSize: '8',
           theme: 'fusion',
           bgColor: '#0d1627',
           baseFontColor: '#FFFFFF',
+          toolTipBgColor: '0d1627',
+          showLegend: '0',
+          chartTopPadding: '10',
         },
         data: [
           {
@@ -227,10 +237,7 @@ export default class PlainColumn2D extends Component {
         <Text style={styles.header}></Text>
         <Text style={styles.header}></Text>
         <Text h2 style={styles.header}>
-          Spending by Category:
-        </Text>
-        <Text h4 style={styles.subHeader}>
-          {this.state.startDate} - {this.state.endDate}
+          Spending by Category
         </Text>
 
         <View style={styles.chartContainer}>

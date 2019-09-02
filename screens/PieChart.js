@@ -26,9 +26,12 @@ export default class PieChart extends Component {
           caption: 'Spending by Category',
           bgColor: '#0d1627',
           numberSuffix: '',
+          labelFontColor: 'ffffff',
           numberPrefix: '$',
           baseFontColor: '#FFFFFF',
           theme: 'fusion',
+          showLegend: '0',
+          chartTopMargin: '0',
         },
         data: [
           {
@@ -202,10 +205,14 @@ export default class PieChart extends Component {
           caption: 'Spending by Category',
           subCaption: `${this.state.startDate} - ${this.state.endDate}`,
           bgColor: '#0d1627',
+          labelFontSize: '4',
+          labelFontColor: 'ffffff',
           baseFontColor: '#FFFFFF',
           numberPrefix: '$',
           numberSuffix: '',
           theme: 'candy',
+          showLegend: '0',
+          chartTopMargin: '0',
         },
         data: [
           {
