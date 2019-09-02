@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import firebase from "firebase";
 import { Icon } from "react-native";
@@ -15,7 +14,6 @@ import FilterButton from "./FilterButton";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Ionicons } from "@expo/vector-icons";
 
-
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -28,11 +26,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   Button,
-
   Text
 } from "react-native";
 import MapFilters from "./MapFilters";
-
 
 export default class DashboardScreen extends Component {
   constructor(props) {
@@ -202,6 +198,12 @@ export default class DashboardScreen extends Component {
     }
   };
 
+  onSubmit = () => {
+    this.transUpdater();
+    console.log("TRANSUPDATER IS RUNNING--------------------");
+    this._panel.hide();
+  };
+
   render() {
     if (this.state.transactions.transactions) {
       return (
@@ -224,21 +226,31 @@ export default class DashboardScreen extends Component {
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between"
+
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
-
             <SlidingUpPanel
+              draggableRange={{
+                height: 150,
+                top: 150,
+                bottom: 0,
+                animatedValue: 0
+              }}
               ref={c => (this._panel = c)}
-              draggableRange={{ top: 200, bottom: 0 }}
-              containerStyle={styles.panel}
-              showBackdrop={false}
             >
-              <View>
-                <Text>Hello</Text>
+              <View style={styles.hidepanel}>
+                <Text style={{ padding: 15 }}>Start Date</Text>
+
                 <DatePicker
-                  style={{ width: 150 }}
+                  style={{
+                    width: 150,
+                    backgroundColor: "#4AAEC8",
+                    opacity: 80,
+                    borderRadius: 25
+                  }}
                   date={this.state.startDate} //initial date from state
                   mode="date" //The enum of date, datetime and time
                   placeholder="select start date"
@@ -252,8 +264,14 @@ export default class DashboardScreen extends Component {
                     this.setState({ startDate: date });
                   }}
                 />
+                <Text style={{ padding: 15 }}>End Date</Text>
                 <DatePicker
-                  style={{ width: 150 }}
+                  style={{
+                    width: 150,
+                    backgroundColor: "#4AAEC8",
+                    opacity: 80,
+                    borderRadius: 25
+                  }}
                   date={this.state.endDate} //initial date from state
                   mode="date" //The enum of date, datetime and time
                   placeholder="select end date"
@@ -267,6 +285,18 @@ export default class DashboardScreen extends Component {
                     this.setState({ endDate: date });
                   }}
                 />
+
+                <Button
+                  style={{ justifyContent: "center", padding: 15 }}
+                  title="Submit HAHAHAHAH"
+                  onPress={() => this.onSubmit()}
+                />
+                {/* <Button
+                  style={styles.submit}
+                  title="Submit"
+                  onPress={this.transUpdater}
+                /> */}
+
               </View>
             </SlidingUpPanel>
 
@@ -292,11 +322,17 @@ export default class DashboardScreen extends Component {
             sty={styles.menuIcon4}
           />
 
-          <Button
-            style={styles.submit}
-            title="Submit"
-            onPress={this.transUpdater}
-          />
+          <View style={styles.menuIcon5}>
+            <Ionicons
+              name={"ios-calendar"}
+              color="#0d1627"
+              size={25}
+              onPress={() => {
+                this._panel.show(150);
+              }}
+            />
+          </View>
+
         </View>
       );
     } else {
@@ -306,8 +342,20 @@ export default class DashboardScreen extends Component {
 }
 const styles = StyleSheet.create({
 
-  panel: {
+  hidepanel: {
     flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    height: "50%",
+    position: "relative"
+  },
+  showpanel: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "red",
+
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
