@@ -14,6 +14,10 @@ import FilterButton from "./FilterButton";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Ionicons } from "@expo/vector-icons";
 
+
+const { height } = Dimensions.get("window");
+
+
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -26,7 +30,10 @@ import {
   StyleSheet,
   ActivityIndicator,
   Button,
-  Text
+
+  Dimensions,
+  Animated
+
 } from "react-native";
 import MapFilters from "./MapFilters";
 
@@ -208,6 +215,10 @@ export default class DashboardScreen extends Component {
     if (this.state.transactions.transactions) {
       return (
         <View style={styles.container}>
+
+          <Text onPress={() => this._panel.show(360)}>Show panel</Text>
+
+
           <MenuButton navigation={this.props.navigation} />
 
           <MapView
@@ -227,80 +238,10 @@ export default class DashboardScreen extends Component {
             style={{
               flex: 1,
 
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center"
+              flexDirection: "row",
+              justifyContent: "space-between"
             }}
-          >
-            <SlidingUpPanel
-              draggableRange={{
-                height: 150,
-                top: 150,
-                bottom: 0,
-                animatedValue: 0
-              }}
-              ref={c => (this._panel = c)}
-            >
-              <View style={styles.hidepanel}>
-                <Text style={{ padding: 15 }}>Start Date</Text>
-
-                <DatePicker
-                  style={{
-                    width: 150,
-                    backgroundColor: "#4AAEC8",
-                    opacity: 80,
-                    borderRadius: 25
-                  }}
-                  date={this.state.startDate} //initial date from state
-                  mode="date" //The enum of date, datetime and time
-                  placeholder="select start date"
-                  format="YYYY-MM-DD"
-                  minDate="2016-01-01"
-                  maxDate="2019-01-01"
-                  confirmBtnText="Confirm"
-                  cancelBtnText="Cancel"
-                  showIcon={false}
-                  onDateChange={date => {
-                    this.setState({ startDate: date });
-                  }}
-                />
-                <Text style={{ padding: 15 }}>End Date</Text>
-                <DatePicker
-                  style={{
-                    width: 150,
-                    backgroundColor: "#4AAEC8",
-                    opacity: 80,
-                    borderRadius: 25
-                  }}
-                  date={this.state.endDate} //initial date from state
-                  mode="date" //The enum of date, datetime and time
-                  placeholder="select end date"
-                  format="YYYY-MM-DD"
-                  minDate="2016-01-01"
-                  maxDate="2019-01-01"
-                  confirmBtnText="Confirm"
-                  cancelBtnText="Cancel"
-                  showIcon={false}
-                  onDateChange={date => {
-                    this.setState({ endDate: date });
-                  }}
-                />
-
-                <Button
-                  style={{ justifyContent: "center", padding: 15 }}
-                  title="Submit HAHAHAHAH"
-                  onPress={() => this.onSubmit()}
-                />
-                {/* <Button
-                  style={styles.submit}
-                  title="Submit"
-                  onPress={this.transUpdater}
-                /> */}
-
-              </View>
-            </SlidingUpPanel>
-
-          </View>
+          ></View>
           <FilterButton
             filter={this.recFilter}
             icon={"md-bicycle"}
@@ -322,15 +263,91 @@ export default class DashboardScreen extends Component {
             sty={styles.menuIcon4}
           />
 
-          <View style={styles.menuIcon5}>
-            <Ionicons
-              name={"ios-calendar"}
-              color="#0d1627"
-              size={25}
-              onPress={() => {
-                this._panel.show(150);
+          <View style={styles.DatePicker}>
+            <DatePicker
+              customStyles={{
+                width: 150,
+                dateInput: {
+                  color: "white",
+                  borderColor: "rgba(52, 52, 52, 0)"
+                },
+                dateTouchBody: {
+                  color: "white",
+                  borderColor: "white",
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  margin: 10,
+                  backgroundColor: "white",
+                  shadowColor: "black",
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowColor: "black",
+                  shadowOpacity: 0.5
+                },
+                placeholderText: {
+                  color: "white",
+                  fontSize: 20
+                },
+                margin: 10
+              }}
+              date={this.state.startDate} //initial date from state
+              mode="date" //The enum of date, datetime and time
+              placeholder="select start date"
+              format="YYYY-MM-DD"
+              minDate="2016-01-01"
+              maxDate="2019-01-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              showIcon={false}
+              onDateChange={date => {
+                this.setState({ startDate: date });
               }}
             />
+            <DatePicker
+              customStyles={{
+                width: 150,
+                dateInput: {
+                  color: "white",
+                  borderColor: "rgba(52, 52, 52, 0)"
+                },
+                dateTouchBody: {
+                  color: "white",
+                  borderColor: "white",
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  margin: 10,
+                  backgroundColor: "white",
+                  shadowColor: "black",
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowColor: "black",
+                  shadowOpacity: 0.5
+                },
+                placeholderText: {
+                  color: "white",
+                  fontSize: 20
+                },
+                margin: 10
+              }}
+              date={this.state.endDate} //initial date from state
+              mode="date" //The enum of date, datetime and time
+              placeholder="select end date"
+              format="YYYY-MM-DD"
+              minDate="2016-01-01"
+              maxDate="2019-01-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              showIcon={false}
+              onDateChange={date => {
+                this.setState({ endDate: date });
+              }}
+            />
+            <View style={styles.refresh}>
+              <Ionicons
+                name="ios-refresh"
+                color="#0d1627"
+                size={18}
+                onPress={this.transUpdater}
+              />
+            </View>
           </View>
 
         </View>
@@ -365,13 +382,52 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+
+    backgroundColor: "#1c2c4d",
     alignItems: "center",
-    justifyContent: "flex-end", //center
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
+    justifyContent: "center"
+  },
+  refresh: {
+    padding: 10,
+    color: "white",
+    width: 38,
+    height: 38,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 19,
+    margin: 10,
+    borderColor: "white",
+    backgroundColor: "white",
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: "black",
+    shadowOpacity: 0.5
+  },
+  DatePicker: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    height: "10%",
+    margin: 15,
+
+    width: "100%"
+  },
+  panel: {
+    flex: 1,
+    backgroundColor: "white",
+    position: "relative"
+  },
+  panelHeader: {
+    height: 50,
+    backgroundColor: "#b197fc",
+    justifyContent: "flex-end",
+    padding: 24
+  },
+  textHeader: {
+    fontSize: 28,
+    color: "#FFF"
+
   },
   submit: {
     width: 20,
@@ -380,6 +436,9 @@ const styles = StyleSheet.create({
   },
   map: {
     position: "absolute",
+
+    height: "100%",
+
     top: 0,
     left: 0,
     bottom: 0,
@@ -432,8 +491,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    position: 'absolute',
-    top: 210,
+    position: "absolute",
+    top: 220,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
@@ -451,8 +510,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    position: 'absolute',
-    top: 270,
+    position: "absolute",
+    top: 280,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
@@ -470,8 +529,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    position: 'absolute',
-    top: 330,
+    position: "absolute",
+    top: 340,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
