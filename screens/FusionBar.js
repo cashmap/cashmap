@@ -327,10 +327,9 @@ export default class PlainColumn2D extends Component {
               name="ios-refresh"
               color="#0d1627"
               size={18}
-              onPress={this.transUpdater(
-                this.state.startDate,
-                this.state.endDate
-              )}
+              onPress={() =>
+                this.transUpdater(this.state.startDate, this.state.endDate)
+              }
             />
           </View>
         </View>
