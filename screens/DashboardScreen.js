@@ -197,6 +197,12 @@ export default class DashboardScreen extends Component {
     }
   };
 
+  onSubmit = () => {
+    this.transUpdater();
+    console.log("TRANSUPDATER IS RUNNING--------------------");
+    this._panel.hide();
+  };
+
   render() {
     if (this.state.transactions.transactions) {
       return (
@@ -225,12 +231,22 @@ export default class DashboardScreen extends Component {
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between"
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
-            <SlidingUpPanel ref={c => (this._panel = c)}>
+            <SlidingUpPanel
+              draggableRange={{
+                height: 150,
+                top: 150,
+                bottom: 0,
+                animatedValue: 0
+              }}
+              ref={c => (this._panel = c)}
+            >
               <View style={styles.hidepanel}>
+                <Text style={{ padding: 15 }}>Start Date</Text>
                 <DatePicker
                   style={{
                     width: 150,
@@ -251,6 +267,7 @@ export default class DashboardScreen extends Component {
                     this.setState({ startDate: date });
                   }}
                 />
+                <Text style={{ padding: 15 }}>End Date</Text>
                 <DatePicker
                   style={{
                     width: 150,
@@ -271,8 +288,16 @@ export default class DashboardScreen extends Component {
                     this.setState({ endDate: date });
                   }}
                 />
-
-                <Button title="Hide" onPress={() => this._panel.hide()} />
+                <Button
+                  style={{ justifyContent: "center", padding: 15 }}
+                  title="Submit HAHAHAHAH"
+                  onPress={() => this.onSubmit()}
+                />
+                {/* <Button
+                  style={styles.submit}
+                  title="Submit"
+                  onPress={this.transUpdater}
+                /> */}
               </View>
             </SlidingUpPanel>
           </View>
@@ -302,16 +327,10 @@ export default class DashboardScreen extends Component {
               color="#0d1627"
               size={25}
               onPress={() => {
-                this._panel.show(80);
+                this._panel.show(30);
               }}
             />
           </View>
-
-          <Button
-            style={styles.submit}
-            title="Submit"
-            onPress={this.transUpdater}
-          />
         </View>
       );
     } else {
@@ -322,6 +341,7 @@ export default class DashboardScreen extends Component {
 const styles = StyleSheet.create({
   hidepanel: {
     flex: 1,
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "red",
@@ -329,6 +349,7 @@ const styles = StyleSheet.create({
   },
   showpanel: {
     flex: 1,
+    width: "100%",
     backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
