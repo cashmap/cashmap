@@ -327,7 +327,7 @@ export default class DashboardScreen extends Component {
               color="#0d1627"
               size={25}
               onPress={() => {
-                this._panel.show(30);
+                this._panel.show(150);
               }}
             />
           </View>
@@ -344,8 +344,9 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "red",
-    height: "50%"
+    backgroundColor: "white",
+    height: "50%",
+    position: "relative"
   },
   showpanel: {
     flex: 1,
