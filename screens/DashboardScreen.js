@@ -22,6 +22,7 @@ import {
 } from "react-navigation";
 import {
   View,
+  Text,
   StyleSheet,
   ActivityIndicator,
   Button,
@@ -85,7 +86,7 @@ export default class DashboardScreen extends Component {
     console.log("getTrans is Running!");
 
     if (getTransResult) {
-      console.log(getTransResult);
+      console.log(this.state.getTransResult);
       await this.setState({ transactions: getTransResult });
       let filteredLocations = this.generateLocations();
 
@@ -207,14 +208,8 @@ export default class DashboardScreen extends Component {
     if (this.state.transactions.transactions) {
       return (
         <View style={styles.container}>
-          <Text>Josh</Text>
-
           <MenuButton navigation={this.props.navigation} />
-          {/* <View style={styles.balance}>
-            <Text>
-              {this.state.}
-            </Text>
-          </View> */}
+
           <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
@@ -231,6 +226,7 @@ export default class DashboardScreen extends Component {
           <View
             style={{
               flex: 1,
+
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center"
@@ -247,6 +243,7 @@ export default class DashboardScreen extends Component {
             >
               <View style={styles.hidepanel}>
                 <Text style={{ padding: 15 }}>Start Date</Text>
+
                 <DatePicker
                   style={{
                     width: 150,
@@ -288,6 +285,7 @@ export default class DashboardScreen extends Component {
                     this.setState({ endDate: date });
                   }}
                 />
+
                 <Button
                   style={{ justifyContent: "center", padding: 15 }}
                   title="Submit HAHAHAHAH"
@@ -298,8 +296,10 @@ export default class DashboardScreen extends Component {
                   title="Submit"
                   onPress={this.transUpdater}
                 /> */}
+
               </View>
             </SlidingUpPanel>
+
           </View>
           <FilterButton
             filter={this.recFilter}
@@ -321,6 +321,7 @@ export default class DashboardScreen extends Component {
             icon={"ios-infinite"}
             sty={styles.menuIcon4}
           />
+
           <View style={styles.menuIcon5}>
             <Ionicons
               name={"ios-calendar"}
@@ -331,6 +332,7 @@ export default class DashboardScreen extends Component {
               }}
             />
           </View>
+
         </View>
       );
     } else {
@@ -339,6 +341,7 @@ export default class DashboardScreen extends Component {
   }
 }
 const styles = StyleSheet.create({
+
   hidepanel: {
     flex: 1,
     width: "100%",
@@ -352,10 +355,14 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "red",
+
     alignItems: "center",
     justifyContent: "center",
-    height: "50%"
+    backgroundColor: "white",
+    height: 300,
+    width: "100%"
   },
+
   container: {
     flex: 1,
     alignItems: "center",
@@ -425,10 +432,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 220,
-
+    position: 'absolute',
+    top: 210,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
@@ -446,10 +451,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 280,
-
+    position: 'absolute',
+    top: 270,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
@@ -467,10 +470,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-
-    position: "absolute",
-    top: 340,
-
+    position: 'absolute',
+    top: 330,
     left: 20,
     shadowColor: "black",
     borderColor: "white",
