@@ -14,7 +14,9 @@ import FilterButton from "./FilterButton";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Ionicons } from "@expo/vector-icons";
 
+
 const { height } = Dimensions.get("window");
+
 
 import {
   createAppContainer,
@@ -28,8 +30,10 @@ import {
   StyleSheet,
   ActivityIndicator,
   Button,
+
   Dimensions,
   Animated
+
 } from "react-native";
 import MapFilters from "./MapFilters";
 
@@ -201,18 +205,22 @@ export default class DashboardScreen extends Component {
     }
   };
 
+  onSubmit = () => {
+    this.transUpdater();
+    console.log("TRANSUPDATER IS RUNNING--------------------");
+    this._panel.hide();
+  };
+
   render() {
     if (this.state.transactions.transactions) {
       return (
         <View style={styles.container}>
+
           <Text onPress={() => this._panel.show(360)}>Show panel</Text>
 
+
           <MenuButton navigation={this.props.navigation} />
-          {/* <View style={styles.balance}>
-            <Text>
-              {this.state.}
-            </Text>
-          </View> */}
+
           <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
@@ -229,6 +237,7 @@ export default class DashboardScreen extends Component {
           <View
             style={{
               flex: 1,
+
               flexDirection: "row",
               justifyContent: "space-between"
             }}
@@ -340,6 +349,7 @@ export default class DashboardScreen extends Component {
               />
             </View>
           </View>
+
         </View>
       );
     } else {
@@ -348,8 +358,31 @@ export default class DashboardScreen extends Component {
   }
 }
 const styles = StyleSheet.create({
+
+  hidepanel: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    height: "50%",
+    position: "relative"
+  },
+  showpanel: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "red",
+
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    height: 300,
+    width: "100%"
+  },
+
   container: {
     flex: 1,
+
     backgroundColor: "#1c2c4d",
     alignItems: "center",
     justifyContent: "center"
@@ -394,6 +427,7 @@ const styles = StyleSheet.create({
   textHeader: {
     fontSize: 28,
     color: "#FFF"
+
   },
   submit: {
     width: 20,
@@ -402,7 +436,9 @@ const styles = StyleSheet.create({
   },
   map: {
     position: "absolute",
+
     height: "100%",
+
     top: 0,
     left: 0,
     bottom: 0,
