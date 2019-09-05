@@ -5,6 +5,12 @@ CashMap is a personal-finance mobile application that displays your debit card a
 ## About
 The front-end Plaid module contains a comprehensive list of banks that have partnerships with Plaid. Using React Native & Firebase with Cloud Functions, we were able to design a way to authenticate and make API requests from Plaid for all credit card transactions from a defined range of dates. The crux of our application is to plot transactions on Google Maps to display your spending activity based on location. To supplement this information, we included features in the form of a pie & bar chart to give users a visualization of their spending habits.
 
+![two](https://i.gyazo.com/016630e94eb91136591f3993c24008c9.gif)
+![three](https://i.gyazo.com/792f7d0f0b3b6f4bd763e686515e88e5.gif)
+![five](https://i.gyazo.com/d6e27b5f7e885427579e9b7ad2654e21.gif)
+![one](https://i.gyazo.com/248c80464a7562ddb9bddc39887d1b97.gif)
+
+
 [Members](#Members)
 
 ## Members
