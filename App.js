@@ -65,21 +65,6 @@ export default class App extends Component {
   }
 }
 
-// const AppSwitchNavigator = createSwitchNavigator({
-//   LoadingScreen: LoadingScreen,
-//   LoginScreen: LoginScreen,
-//   DashboardScreen: DashboardScreen,
-//   PlaidScreen: PlaidScreen,
-//   MapScreen: MapScreen
-// });
-
-// const AppNavigator = createAppContainer(AppSwitchNavigator);
-
-// const AppDrawerNavigator = createDrawerNavigator({
-//   PlaidScreen: PlaidScreen
-// });
-// const Apps = createAppContainer(AppDrawerNavigator);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
